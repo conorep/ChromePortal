@@ -11,10 +11,14 @@
     "tabs",
     "contextMenus",
     "storage",
-    "scripting"
+    "scripting",
+    "sidePanel"
   ],
+  "side_panel": {
+    "default_path": "html/sidepanel.html"
+  },
   "action": {
-    "default_popup": "index.html",
+    "default_title": "Click to open panel",
     "default_icon": {
       "16": "images/custLogo16.png",
       "32": "images/custLogo32.png",
