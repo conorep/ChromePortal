@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="moving to sidePanel">
+      <change afterPath="$PROJECT_DIR$/PortalExt/html/sidepanelScripts/sidePanel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PortalExt/background.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/background.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/chromeextStyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/html/styles/chromeextStyles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/popup.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PortalExt/html/sidepanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/html/sidepanel.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -90,6 +88,21 @@
       <recent name="C:\Users\Conor.OBrien\IdeaProjects\ChromePortal\PortalExt\popupsScripts" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="ChromePortal" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="ChromePortal" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>C:\Users\Conor.OBrien\AppData\Roaming\Subversion</configuration>
@@ -108,7 +121,8 @@
       <workItem from="1705620189194" duration="12000" />
       <workItem from="1705620212287" duration="38000" />
       <workItem from="1705620259314" duration="1237000" />
-      <workItem from="1705621513696" duration="753000" />
+      <workItem from="1705621513696" duration="3156000" />
+      <workItem from="1705629634484" duration="5041000" />
     </task>
     <task id="LOCAL-00001" summary="start of mv3 project">
       <option name="closed" value="true" />
@@ -126,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705620348402</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="moving to sidePanel">
+      <option name="closed" value="true" />
+      <created>1705622290432</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1705622290432</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

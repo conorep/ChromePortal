@@ -7,6 +7,8 @@ chrome.runtime.onInstalled.addListener(() => {
         contexts: ['all']
     });
 });
+chrome.storage.session.setAccessLevel({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' });
+chrome.storage.local.setAccessLevel({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' });
 
 chrome.sidePanel
     .setPanelBehavior({ openPanelOnActionClick: true })
@@ -14,10 +16,6 @@ chrome.sidePanel
 
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
     if (!tab.url) return;
-    checkURL(tab, tabId);
-});
-
-const checkURL = async (tab, tabId) => {
     const url = new URL(tab.url);
     if(url.origin.includes(PORTAL_ORIGIN)) {
         await chrome.sidePanel.setOptions({
@@ -31,4 +29,4 @@ const checkURL = async (tab, tabId) => {
             enabled: false
         });
     }
-}
+});
