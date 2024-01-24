@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="moving to sidePanel">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/background.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/background.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/html/sidepanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/html/sidepanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/html/sidepanelScripts/sidePanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/html/sidepanelScripts/sidePanel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/manifest.json" afterDir="false" />
-    </list>
+    <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="AH. lots of work. finally got the basics working.&#10;- can keep persistent name/pass&#10;- can use that to log into the portal" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -116,7 +110,7 @@
       <workItem from="1705704594639" duration="333000" />
       <workItem from="1705704951397" duration="118000" />
       <workItem from="1706055852981" duration="1309000" />
-      <workItem from="1706057525862" duration="12929000" />
+      <workItem from="1706057525862" duration="13277000" />
     </task>
     <task id="LOCAL-00001" summary="start of mv3 project">
       <option name="closed" value="true" />
@@ -142,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705622290432</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="AH. lots of work. finally got the basics working.&#10;- can keep persistent name/pass&#10;- can use that to log into the portal">
+      <option name="closed" value="true" />
+      <created>1706070850929</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706070850929</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,7 +165,8 @@
     <MESSAGE value="start of mv3 project" />
     <MESSAGE value="pushing everything to main in Github" />
     <MESSAGE value="moving to sidePanel" />
-    <option name="LAST_COMMIT_MESSAGE" value="moving to sidePanel" />
+    <MESSAGE value="AH. lots of work. finally got the basics working.&#10;- can keep persistent name/pass&#10;- can use that to log into the portal" />
+    <option name="LAST_COMMIT_MESSAGE" value="AH. lots of work. finally got the basics working.&#10;- can keep persistent name/pass&#10;- can use that to log into the portal" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
