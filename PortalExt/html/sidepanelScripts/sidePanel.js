@@ -1,21 +1,13 @@
-// let authCredentials = {
-//     uName: 'Conor1',
-//     uPass: 'Chrissy1'
-// }
-
 document.getElementById('logSesh').addEventListener('click', (e) => {
-    let getSesh = chrome.storage.local.get();
-    getSesh.then((res) => {
-        console.log(res);
-    })
+    chrome.runtime.sendMessage({message: 'tryLogin'}, function(response) {
+        console.log(response);
+        return true;
+    });
+    return true;
 }, true)
 
 function onError(e) {
     console.error(e);
-}
-
-function checkStoredSettings(storedSettings) {
-    setInitCreds()
 }
 
 function setInitCreds() {
@@ -24,7 +16,6 @@ function setInitCreds() {
 
     const setStuff = chrome.storage.local.get();
     setStuff.then(res => {
-        console.log(res);
         if(res.hasOwnProperty('uName')) {
             nameInput.setAttribute('value', res.uName);
         }
@@ -35,17 +26,13 @@ function setInitCreds() {
 }
 
 document.getElementById('nameIn').addEventListener('input', (e) => {
-    console.log(e.target.value);
     chrome.storage.local.set({uName: e.target.value})
 })
 document.getElementById('passIn').addEventListener('input', (e) => {
-    console.log(e.target.value);
     chrome.storage.local.set({uPass: e.target.value})
 })
 
 
 const gettingStoredSettings = chrome.storage.local.get();
-gettingStoredSettings.then(checkStoredSettings, onError);
-
-
+gettingStoredSettings.then(setInitCreds, onError);
 

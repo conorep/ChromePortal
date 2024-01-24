@@ -1,18 +1,29 @@
 {
   "name": "CCC PortalExt",
   "description": "Portal Extension for CCC Portal",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["insContent.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "permissions": [
     "activeTab",
     "tabs",
     "contextMenus",
     "storage",
     "scripting",
-    "sidePanel"
+    "sidePanel",
+    "offscreen"
   ],
   "side_panel": {
     "default_path": "html/sidepanel.html"
