@@ -6,16 +6,15 @@
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": ["insContent.js"],
-      "run_at": "document_end"
+  "content_scripts": [{
+    "all_frames": true,
+    "matches": ["<all_urls>"],
+    "match_about_blank": true,
+    "js": ["insContent.js"],
+    "run_at": "document_end"
     }
   ],
-  "host_permissions": ["http://*/*", "https://*/*"],
+  "host_permissions": [ "<all_urls>" ],
   "permissions": [
     "activeTab",
     "tabs",
@@ -23,10 +22,11 @@
     "storage",
     "scripting",
     "sidePanel",
-    "offscreen"
+    "offscreen",
+    "webNavigation"
   ],
-  "side_panel": {
-    "default_path": "html/sidepanel.html"
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
   },
   "action": {
     "default_title": "Click to open panel",
