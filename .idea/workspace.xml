@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="">
+    <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that">
       <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/PortalExt/html/mainSP.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/PortalExt/html/sidepanelScripts/sidePanelUtilities.js" afterDir="false" />
@@ -136,7 +136,7 @@
       <workItem from="1707785738647" duration="2022000" />
       <workItem from="1707791182611" duration="675000" />
       <workItem from="1707864627459" duration="1437000" />
-      <workItem from="1720832259400" duration="5593000" />
+      <workItem from="1720832259400" duration="5902000" />
     </task>
     <task id="LOCAL-00001" summary="start of mv3 project">
       <option name="closed" value="true" />
@@ -178,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706070886556</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that">
+      <option name="closed" value="true" />
+      <created>1720838220128</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1720838220128</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,7 +209,8 @@
     <MESSAGE value="moving to sidePanel" />
     <MESSAGE value="AH. lots of work. finally got the basics working.&#10;- can keep persistent name/pass&#10;- can use that to log into the portal" />
     <MESSAGE value="dont know what changed but pushing anyways" />
-    <option name="LAST_COMMIT_MESSAGE" value="dont know what changed but pushing anyways" />
+    <MESSAGE value="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that" />
+    <option name="LAST_COMMIT_MESSAGE" value="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
