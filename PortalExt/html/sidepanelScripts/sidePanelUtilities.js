@@ -1,3 +1,5 @@
+const alertDivID = 'alertDivPortal';
+
 document.addEventListener('click', (e) => {
   let currBtn = e.target.id;
   chrome.runtime.sendMessage({message: 'tryInsert', btnID: currBtn}, (response) => {
@@ -8,7 +10,9 @@ document.addEventListener('click', (e) => {
     console.log(response);
     if(response.insert === 'good') {
       const inMsg = 'Text insert successful!';
-      insertTheAlert(inMsg)
+      if(!document.getElementById(alertDivID)) {
+        insertTheAlert(inMsg)
+      }
     }
   });
 })
@@ -25,7 +29,7 @@ function insertTheAlert(alertMsg) {
 `;
   document.body.append(createdEle);
 
-  let alertDivEle = document.getElementById('alertDivPortal');
+  let alertDivEle = document.getElementById(alertDivID);
   triggerSuccessAlert(alertDivEle);
 }
 
