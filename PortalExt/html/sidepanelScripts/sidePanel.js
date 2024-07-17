@@ -1,6 +1,3 @@
-chrome.runtime.connect({name: 'sidePanelLog'});
-
-
 document.getElementById('logSesh').addEventListener('click', (e) => {
     chrome.runtime.sendMessage({message: 'tryLogin'}, function(response) {
         if(chrome.runtime.lastError) {

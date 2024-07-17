@@ -1,10 +1,6 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    let resSend = {};
-
-    if(request.message === "myMessage") {
-        resSend = {good: 'hearingFromYou'};
+    if(request.message === 'myMessage') {
+        sendResponse({good: 'hearingFromYou'});
+        return true;
     }
-
-    sendResponse(resSend);
-    return true;
 });
