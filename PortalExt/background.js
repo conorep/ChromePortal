@@ -16,38 +16,36 @@ chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })
     .catch((error) => console.error(error));
 
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
-    console.log('tabs updated', tabId, info, tab);
     if (!tab?.url) return;
 
     if(!info.status || info.status !== 'complete') return;
 
-    let { host } = new URL(tab.url);
-    console.log(host)
-    if(host?.includes(PORTAL_ORIGIN)) {
-        console.log('YEP, the url!', host);
-        await checkThePage(host, tabId);
-    } else {
-        console.log('NOPE, not the url!', host);
-        chrome.sidePanel.setOptions({
-            tabId: tabId,
-            enabled: false
-        }).then(r => lastErrs);
-    }
+    await checkHost(tab);
 });
 
 chrome.webNavigation.onCompleted.addListener(async (info) => {
-    console.log('webnavcomplete', info);
     if(info?.url?.includes(PORTAL_ORIGIN)) {
         await checkThePage(info.url, info.tabId);
     }
 })
 
+chrome.action.onClicked.addListener(async (tab) => {
+    checkHost(tab).then(() => {
+        chrome.action.isEnabled(tab.id, (res) => {
+            if(res) {
+                chrome.sidePanel.open({windowId: tab.windowId}, () => {
+                    if(chrome.runtime.lastError) {
+                        return true;
+                    }
+                });
+            }
+        })
+    })
+});
+
 chrome.runtime.onConnect.addListener(async (port) => {
     if(port.name === 'sidePanelLog' || port.name === 'sidePanelUtil') {
-        let theTab = await getCurrentTab();
-        if(theTab?.url?.includes(PORTAL_ORIGIN)) {
-            await checkThePage(theTab.url, theTab.id);
-        }
+        await checkTabURL();
         port.onDisconnect.addListener(async () => {
             console.log('Side panel closed.');
         });
@@ -90,9 +88,39 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
             })
             return true;
         }
-
     }
 });
+
+chrome.commands.onCommand.addListener(async (command) => {
+    console.log(`Command "${command}" called`);
+    const [tab] = await chrome.tabs.query({active: true})
+    chrome.sidePanel.open({ tabId: tab.id }, () => {
+        if(chrome.runtime.lastError) {
+            return true;
+        }
+    });
+});
+
+async function checkHost(tab) {
+    let tabId = tab.id;
+    console.log('tab', tab)
+    let { host } = new URL(tab.url);
+    if(host?.includes(PORTAL_ORIGIN)) {
+        await checkThePage(host, tabId);
+    } else {
+        chrome.sidePanel.setOptions({
+            tabId: tabId,
+            enabled: false
+        }).then(r => lastErrs);
+    }
+}
+
+async function checkTabURL() {
+    let theTab = await getCurrentTab();
+    if(theTab?.url?.includes(PORTAL_ORIGIN)) {
+        await checkThePage(theTab.url, theTab.id);
+    }
+}
 
 /**
  * Get the active tab.
@@ -122,7 +150,9 @@ async function createOffscreen() {
         url: './html/portalOffscreen.html',
         reasons: ['BLOBS'],
         justification: 'keep service worker running',
-    }).catch(() => {});
+    }).catch(() => {}).then(async () => {
+        await checkTabURL();
+    })
 }
 chrome.runtime.onStartup.addListener(createOffscreen);
 self.onmessage = e => {};
