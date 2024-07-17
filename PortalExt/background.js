@@ -43,59 +43,65 @@ chrome.action.onClicked.addListener(async (tab) => {
     })
 });
 
-chrome.runtime.onConnect.addListener(async (port) => {
-    if(port.name === 'sidePanelLog' || port.name === 'sidePanelUtil') {
-        await checkTabURL();
-        port.onDisconnect.addListener(async () => {
-            console.log('Side panel closed.');
-        });
-    }
+chrome.runtime.onConnect.addListener(async () => {
+    await checkTabURL();
 });
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    console.log(request, sender)
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.message) {
-        const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true })
-        if(request.message === "tryLogin") {
-            let storeStuff = chrome.storage.local.get();
-            storeStuff.then(res => {
-                let currTarget = { tabId: tab.id };
-                chrome.scripting.executeScript({
-                    target: currTarget,
-                    files: [loginPath]
-                }).then(() => {
+        (async() => {
+            const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+
+            if(request.message === "tryLogin") {
+                let storeStuff = chrome.storage.local.get();
+
+                storeStuff.then(res => {
+                    let currTarget = { tabId: tab.id };
                     chrome.scripting.executeScript({
                         target: currTarget,
-                        args: [res.uName, res.uPass],
-                        func: (...args) => doLogin(...args),
-                    });
-                    sendResponse({login: 'good'});
+                        files: [loginPath]
+                    }).then(() => {
+                        chrome.scripting.executeScript({
+                            target: currTarget,
+                            args: [res.uName, res.uPass],
+                            func: (...args) => doLogin(...args),
+                        }).then(() => {
+                            sendResponse({login: 'good'});
+                            return true;
+                        });
+                    })
                 })
-                return true;
-            })
-        } else if(request.message === 'tryInsert') {
-            let defaultTarget = { tabId: tab.id, allFrames : true };
-            chrome.scripting.executeScript({
-                target: defaultTarget,
-                files: [verbPath]
-            }).then(() => {
+            } else if(request.message === 'tryInsert') {
+                let defaultTarget = { tabId: tab.id, allFrames : true };
+
                 chrome.scripting.executeScript({
                     target: defaultTarget,
-                    args: [request.btnID],
-                    func: (...args) => fillVerbiage(...args),
-                });
-                sendResponse({insert: 'good'});
-            })
-            return true;
-        }
+                    files: [verbPath]
+                }).then(() => {
+                    chrome.scripting.executeScript({
+                        target: defaultTarget,
+                        args: [request.btnID],
+                        func: (...args) => fillVerbiage(...args),
+                    }).then(() => {
+                        sendResponse({insert: 'good'});
+                        return true;
+                    })
+                })
+            } else {
+                console.log('nothing here')
+                sendResponse({});
+                return true;
+            }
+        })();
+        return true;
     }
 });
 
 chrome.commands.onCommand.addListener(async (command) => {
-    console.log(`Command "${command}" called`);
     const [tab] = await chrome.tabs.query({active: true})
     chrome.sidePanel.open({ tabId: tab.id }, () => {
         if(chrome.runtime.lastError) {
+            console.log(chrome.runtime.lastError);
             return true;
         }
     });
