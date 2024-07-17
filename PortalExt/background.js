@@ -103,7 +103,6 @@ chrome.commands.onCommand.addListener(async (command) => {
 
 async function checkHost(tab) {
     let tabId = tab.id;
-    console.log('tab', tab)
     let { host } = new URL(tab.url);
     if(host?.includes(PORTAL_ORIGIN)) {
         await checkThePage(host, tabId);
