@@ -6,19 +6,10 @@
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [{
-    "all_frames": true,
-    "matches": ["<all_urls>"],
-    "match_about_blank": true,
-    "js": ["insContent.js"],
-    "run_at": "document_end"
-    }
-  ],
   "host_permissions": [ "<all_urls>" ],
   "permissions": [
     "activeTab",
     "tabs",
-    "contextMenus",
     "storage",
     "scripting",
     "sidePanel",
