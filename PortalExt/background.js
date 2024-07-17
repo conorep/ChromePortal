@@ -3,6 +3,8 @@
 const PORTAL_ORIGIN = 'apps.custom-control.com';
 const loginPg = 'html/portalLogSP.html';
 const utilPg = 'html/mainSP.html';
+const loginPath = 'injections/doLogin.js';
+const verbPath = 'injections/fillVerbiage.js';
 
 function lastErrs() {
     if(chrome.runtime.lastError) {
@@ -52,6 +54,46 @@ chrome.runtime.onConnect.addListener(async (port) => {
     }
 });
 
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+    console.log(request, sender)
+    if(request.message) {
+        const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true })
+        if(request.message === "tryLogin") {
+            let storeStuff = chrome.storage.local.get();
+            storeStuff.then(res => {
+                let currTarget = { tabId: tab.id };
+                chrome.scripting.executeScript({
+                    target: currTarget,
+                    files: [loginPath]
+                }).then(() => {
+                    chrome.scripting.executeScript({
+                        target: currTarget,
+                        args: [res.uName, res.uPass],
+                        func: (...args) => doLogin(...args),
+                    });
+                    sendResponse({login: 'good'});
+                })
+                return true;
+            })
+        } else if(request.message === 'tryInsert') {
+            let defaultTarget = { tabId: tab.id, allFrames : true };
+            chrome.scripting.executeScript({
+                target: defaultTarget,
+                files: [verbPath]
+            }).then(() => {
+                chrome.scripting.executeScript({
+                    target: defaultTarget,
+                    args: [request.btnID],
+                    func: (...args) => fillVerbiage(...args),
+                });
+                sendResponse({insert: 'good'});
+            })
+            return true;
+        }
+
+    }
+});
+
 /**
  * Get the active tab.
  * @returns {Promise<chrome.tabs.Tab>}
@@ -74,49 +116,6 @@ async function checkThePage(theURL, theTabId) {
 
     chrome.sidePanel.setOptions({ enabled: true, path: thePath, tabId: theTabId }).then(r => lastErrs);
 }
-
-/**
- * This function finds the login name/password forms and injects the username and password found in storage,
- * then clicks the login button.
- * @param logN username
- * @param logP password
- */
-function doTheLogin(logN, logP) {
-    const iframe = document.getElementById("dlgFrame");
-    if(iframe != null){
-        iframe.contentWindow.document.getElementById("loginCtl_UserName").value = logN;
-        iframe.contentWindow.document.getElementById("loginCtl_Password").value = logP;
-        iframe.contentWindow.document.getElementById("loginCtl_LoginButton").click();
-        console.log('someone is here');
-    } else if(document.getElementById("loginCtl_UserName")) {
-        document.getElementById("loginCtl_UserName").value = logN;
-        document.getElementById("loginCtl_Password").value = logP;
-        document.getElementById("loginCtl_LoginButton").click();
-        console.log('someone is here');
-    }
-}
-
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    let theRes = {};
-    if(request.message === "tryLogin") {
-        const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true })
-        let storeStuff = chrome.storage.local.get();
-        storeStuff.then(res => {
-            console.log(res);
-            chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                func: doTheLogin,
-                args: [res.uName, res.uPass]
-            }).then(() => {
-                console.log("script injected?")
-            })
-        })
-        console.log(tab);
-        theRes = {logged: 'inGood'};
-    }
-    sendResponse(theRes);
-    return true;
-});
 
 async function createOffscreen() {
     await chrome.offscreen.createDocument({
