@@ -1,9 +1,15 @@
 const alertDivID = 'alertDivPortal';
 
+/*TODO: onload event that checks storage for cmm input state on load*/
 
 document.addEventListener('click', (e) => {
   let currBtn = e.target.id;
   if(!currBtn || currBtn === '') {
+    return;
+  }
+
+  if(currBtn === 'switchBoxCMM') {
+    chrome.storage.local.set({cmmState: e.target.value});
     return;
   }
 

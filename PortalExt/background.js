@@ -83,7 +83,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         args: [request.btnID],
                         func: (...args) => fillVerbiage(...args),
                     }).then(() => {
-                        sendResponse({insert: 'good'});
+                        sendResponse({ insert: 'good' });
                         return true;
                     })
                 })
@@ -95,6 +95,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         })();
         return true;
     }
+    sendResponse({});
+    return true;
 });
 
 chrome.commands.onCommand.addListener(async (command) => {
@@ -106,6 +108,35 @@ chrome.commands.onCommand.addListener(async (command) => {
         }
     });
 });
+
+chrome.storage.onChanged.addListener(async (changes, areaName) => {
+    console.log(changes, areaName);
+    if(areaName === 'local') {
+        if(changes.cmmState) {
+            const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+
+            //TODO: create some functionality that dynamically inserts content scripts (or removes them) which
+            // allow dynamic insertion of CMM names in the proper input
+            // if(changes.cmmState.newValue === 'on') {
+            //     chrome.scripting.executeScript({
+            //         target: defaultTarget,
+            //         files: [verbPath]
+            //     }).then(() => {
+            //         chrome.scripting.executeScript({
+            //             target: defaultTarget,
+            //             args: [request.btnID],
+            //             func: (...args) => fillVerbiage(...args),
+            //         }).then(() => {
+            //             sendResponse({ insert: 'good' });
+            //             return true;
+            //         })
+            //     })
+            // } else {
+            //
+            // }
+        }
+    }
+})
 
 async function checkHost(tab) {
     let tabId = tab.id;
