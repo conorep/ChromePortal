@@ -71,7 +71,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         });
                     })
                 })
-            } else if(request.message === 'tryInsert') {
+            } else if(request.message === 'tryInsert' && request.btnID !== '') {
                 let defaultTarget = { tabId: tab.id, allFrames : true };
 
                 chrome.scripting.executeScript({

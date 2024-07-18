@@ -1,7 +1,12 @@
 const alertDivID = 'alertDivPortal';
 
+
 document.addEventListener('click', (e) => {
   let currBtn = e.target.id;
+  if(!currBtn || currBtn === '') {
+    return;
+  }
+
   chrome.runtime.sendMessage({message: 'tryInsert', btnID: currBtn}, (response) => {
     if(chrome.runtime.lastError) {
       console.log(chrome.runtime.lastError);
