@@ -14,3 +14,12 @@ div.row.my-5.no-gutter, div.my-3.no-gutter {
   left: 50%;
   transform: translate(-50%, 0);
 }
+
+.btn-outline-primary, .btn-outline-success {
+  background-color: white;
+}
+
+div.card.bg-primary > div.card-body {
+  background-color: lightblue;
+  color: black;
+}
