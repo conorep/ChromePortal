@@ -6,20 +6,20 @@
   "background": {
     "service_worker": "background.js"
   },
-  "host_permissions": [ "<all_urls>" ],
-  "permissions": [
-    "activeTab",
-    "tabs",
-    "storage",
-    "scripting",
-    "sidePanel",
-    "offscreen",
-    "webNavigation",
-    "commands"
-  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
   },
+  "permissions": [
+    "activeTab",
+    "commands",
+    "offscreen",
+    "scripting",
+    "sidePanel",
+    "storage",
+    "tabs",
+    "webNavigation"
+  ],
+  "host_permissions": [ "<all_urls>" ],
   "action": {
     "default_title": "Click to open panel",
     "default_icon": {
