@@ -1,6 +1,11 @@
 const alertDivID = 'alertDivPortal';
+const cmmStateID = 'switchBoxCMM';
 
-/*TODO: onload event that checks storage for cmm input state on load*/
+window.onload = () => {
+  chrome.storage.local.get('cmmState').then((res) => {
+    document.getElementById(cmmStateID).checked = res.cmmState;
+  })
+}
 
 document.addEventListener('click', (e) => {
   let currBtn = e.target.id;
@@ -8,12 +13,15 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  if(currBtn === 'switchBoxCMM') {
-    chrome.storage.local.set({cmmState: e.target.value});
+  if(currBtn === cmmStateID) {
+    chrome.storage.local.set({ cmmState: e.target.checked });
+    chrome.runtime.sendMessage({ cmmState: e.target.checked }, (response) => {
+      console.log(response);
+    })
     return;
   }
 
-  chrome.runtime.sendMessage({message: 'tryInsert', btnID: currBtn}, (response) => {
+  chrome.runtime.sendMessage({ message: 'tryInsert', btnID: currBtn }, (response) => {
     if(chrome.runtime.lastError) {
       console.log(chrome.runtime.lastError);
       return true;
