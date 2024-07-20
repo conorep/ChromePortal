@@ -5,6 +5,8 @@ const loginPg = 'html/portalLogSP.html';
 const utilPg = 'html/mainSP.html';
 const loginPath = 'injections/doLogin.js';
 const verbPath = 'injections/fillVerbiage.js';
+const cmmPath = 'injections/findAndFillCMMs.js';
+let navJustTriggered = false;
 
 function lastErrs() {
     if(chrome.runtime.lastError) {
@@ -12,19 +14,27 @@ function lastErrs() {
     }
 }
 
-chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })
-    .catch((error) => console.error(error));
+chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch((error) => console.error(error));
 
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
     if (!tab?.url) return;
 
     if(!info.status || info.status !== 'complete') return;
 
-    await checkHost(tab);
+    if(!navJustTriggered) {
+        await checkHost(tab);
+    } else {
+        navJustTriggered = false;
+    }
 });
+
+chrome.tabs.onActivated.addListener(checkTabURL);
+
+chrome.runtime.onConnect.addListener(checkTabURL);
 
 chrome.webNavigation.onCompleted.addListener(async (info) => {
     if(info?.url?.includes(PORTAL_ORIGIN)) {
+        navJustTriggered = true;
         await checkThePage(info.url, info.tabId);
     }
 })
@@ -34,21 +44,20 @@ chrome.action.onClicked.addListener(async (tab) => {
         chrome.action.isEnabled(tab.id, (res) => {
             if(res) {
                 chrome.sidePanel.open({windowId: tab.windowId}, () => {
-                    if(chrome.runtime.lastError) {
-                        return true;
-                    }
+                    if(chrome.runtime.lastError) { return true; }
                 });
             }
         })
     })
 });
 
-chrome.runtime.onConnect.addListener(async () => {
-    await checkTabURL();
-});
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if(request.message) {
+    if(request.hasOwnProperty('cmmState')) {
+        console.log('got cmmState', request.cmmState);
+        chrome.storage.local.get().then(res => {
+            console.log(res)
+        })
+    } else if(request.message) {
         (async() => {
             const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
 
@@ -88,7 +97,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     })
                 })
             } else {
-                console.log('nothing here')
                 sendResponse({});
                 return true;
             }
@@ -109,45 +117,13 @@ chrome.commands.onCommand.addListener(async (command) => {
     });
 });
 
-chrome.storage.onChanged.addListener(async (changes, areaName) => {
-    console.log(changes, areaName);
-    if(areaName === 'local') {
-        if(changes.cmmState) {
-            const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
-
-            //TODO: create some functionality that dynamically inserts content scripts (or removes them) which
-            // allow dynamic insertion of CMM names in the proper input
-            // if(changes.cmmState.newValue === 'on') {
-            //     chrome.scripting.executeScript({
-            //         target: defaultTarget,
-            //         files: [verbPath]
-            //     }).then(() => {
-            //         chrome.scripting.executeScript({
-            //             target: defaultTarget,
-            //             args: [request.btnID],
-            //             func: (...args) => fillVerbiage(...args),
-            //         }).then(() => {
-            //             sendResponse({ insert: 'good' });
-            //             return true;
-            //         })
-            //     })
-            // } else {
-            //
-            // }
-        }
-    }
-})
-
 async function checkHost(tab) {
     let tabId = tab.id;
-    let { host } = new URL(tab.url);
-    if(host?.includes(PORTAL_ORIGIN)) {
-        await checkThePage(host, tabId);
+    let checkURL = new URL(tab.url);
+    if(checkURL.host === PORTAL_ORIGIN) {
+        await checkThePage(checkURL.href, tabId);
     } else {
-        chrome.sidePanel.setOptions({
-            tabId: tabId,
-            enabled: false
-        }).then(r => lastErrs);
+        chrome.sidePanel.setOptions({ tabId: tabId, enabled: false }).then(lastErrs);
     }
 }
 
@@ -156,6 +132,18 @@ async function checkTabURL() {
     if(theTab?.url?.includes(PORTAL_ORIGIN)) {
         await checkThePage(theTab.url, theTab.id);
     }
+}
+
+async function cmmContentInject(currTab) {
+    chrome.storage.local.get().then((res) => {
+        if(res?.cmmState) {
+            let bigTarget = { tabId: currTab, allFrames : true };
+            chrome.scripting.executeScript({
+                target: bigTarget,
+                files: [cmmPath]
+            });
+        }
+    })
 }
 
 /**
@@ -175,10 +163,11 @@ async function getCurrentTab() {
  * @returns {Promise<void>}
  */
 async function checkThePage(theURL, theTabId) {
-    console.log('url/tabid', theURL, theTabId);
     let thePath = theURL.includes('/login.aspx') ? loginPg : utilPg;
-
-    chrome.sidePanel.setOptions({ enabled: true, path: thePath, tabId: theTabId }).then(r => lastErrs);
+    chrome.sidePanel.setOptions({ tabId: theTabId, path: thePath, enabled: true }).then(() => {
+        lastErrs();
+        cmmContentInject(theTabId);
+    });
 }
 
 async function createOffscreen() {
