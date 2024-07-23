@@ -6,6 +6,7 @@ const utilPg = 'html/mainSP.html';
 const loginPath = 'injections/doLogin.js';
 const verbPath = 'injections/fillVerbiage.js';
 const cmmPath = 'injections/findAndFillCMMs.js';
+const betterEnterPath = 'injections/fixSearchEnter.js';
 let navJustTriggered = false;
 
 function lastErrs() {
@@ -134,15 +135,17 @@ async function checkTabURL() {
     }
 }
 
-async function cmmContentInject(currTab) {
+async function injectListeners(currTab) {
+    let bigTarget = { tabId: currTab, allFrames : true };
+    let scriptsToInsert = [betterEnterPath]
     chrome.storage.local.get().then((res) => {
         if(res?.cmmState) {
-            let bigTarget = { tabId: currTab, allFrames : true };
-            chrome.scripting.executeScript({
-                target: bigTarget,
-                files: [cmmPath]
-            });
+            scriptsToInsert.push(cmmPath);
         }
+        chrome.scripting.executeScript({
+            target: bigTarget,
+            files: scriptsToInsert
+        });
     })
 }
 
@@ -166,7 +169,7 @@ async function checkThePage(theURL, theTabId) {
     let thePath = theURL.includes('/login.aspx') ? loginPg : utilPg;
     chrome.sidePanel.setOptions({ tabId: theTabId, path: thePath, enabled: true }).then(() => {
         lastErrs();
-        cmmContentInject(theTabId);
+        injectListeners(theTabId);
     });
 }
 
