@@ -22,7 +22,7 @@
   if(searchModal) {
     let muteObserver = new MutationObserver(muteObserverCB);
     if(window === window.top) {
-      muteObserver.observe(searchModal, { attributeOldValue: true, attributeFilter: ["status"] });
+      muteObserver.observe(searchModal, { attributeOldValue: true, attributeFilter: ['style'] });
     }
   }
 
