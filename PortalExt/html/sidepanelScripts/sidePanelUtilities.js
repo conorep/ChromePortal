@@ -9,7 +9,7 @@ window.onload = () => {
 
 document.addEventListener('click', (e) => {
   let currBtn = e.target.id;
-  if(!currBtn || currBtn === '') {
+  if(!currBtn || currBtn === '' || currBtn === 'check-circle-fill') {
     return;
   }
 
