@@ -7,6 +7,7 @@ const loginPath = 'injections/doLogin.js';
 const verbPath = 'injections/fillVerbiage.js';
 const cmmPath = 'injections/findAndFillCMMs.js';
 const betterEnterPath = 'injections/fixSearchEnter.js';
+const op10InsertPath = 'injections/fillEmptyOp10ParetoCodes.js';
 let navJustTriggered = false;
 
 function lastErrs() {
@@ -137,7 +138,7 @@ async function checkTabURL() {
 
 async function injectListeners(currTab) {
     let bigTarget = { tabId: currTab, allFrames : true };
-    let scriptsToInsert = [betterEnterPath]
+    let scriptsToInsert = [betterEnterPath, op10InsertPath];
     chrome.storage.local.get().then((res) => {
         if(res?.cmmState) {
             scriptsToInsert.push(cmmPath);
