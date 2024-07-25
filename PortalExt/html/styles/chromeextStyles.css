@@ -1,3 +1,8 @@
+body {
+  min-height: 100VH;
+  margin-bottom: 15px;
+}
+
 div.row.my-5.no-gutter, div.my-3.no-gutter {
   --bs-gutter-x: 0;
 }
@@ -23,3 +28,18 @@ div.card.bg-primary > div.card-body {
   background-color: lightblue;
   color: black;
 }
+
+#op10Btn {
+  background-color: #1d6be3;
+  &:hover {
+    background-color: #0f4ba8;
+  }
+}
+
+#searchEnterBtn {
+  background-color: #0b60e1;
+  &:hover {
+    background-color: #0d3e8c;
+  }
+}
+

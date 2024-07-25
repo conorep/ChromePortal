@@ -69,6 +69,37 @@
 
     </div>
   </div>
+
+  <div class='container mt-3'>
+    <div class='row justify-content-center'>
+      <div class='col-10 col-sm-6 btn-group d-flex justify-content-center' role='group'
+          aria-label='Buttons that expose some of the quiet background processes that the extension is running.'>
+        <a class='btn btn-primary' data-bs-toggle='collapse' href='#op10Insert' role='button' aria-expanded='false'
+            aria-controls='op10Insert' id='op10Btn'>'Op10:&nbsp;Test' text</a>
+        <a class='btn btn-primary' data-bs-toggle='collapse' href='#searchEnter' role='button' aria-expanded='false'
+            aria-controls='searchEnter' id='searchEnterBtn'>Search 'Enter' key</a>
+      </div>
+    </div>
+
+    <div class='row justify-content-center mt-3'>
+      <div class='collapse' id='op10Insert'>
+        <div class='card card-body'>
+          The Portal extension checks to see if the Op10 'Test' text box has text in it.
+          <br/>
+          If there is no text, the Op10 text block (failure mode, warranty state, and pareto code) is dynamically inserted.
+        </div>
+      </div>
+      <div class='collapse' id='searchEnter'>
+        <div class='card card-body'>
+          The Portal extension quietly fixes what happens when you enter something in the 'Search' modal and hit 'enter.'
+          <br/>
+          Previously, hitting 'enter' on your keyboard would close the modal and reload the page without running your
+          desired search query. Now, you can hit 'enter' and quickly run your search.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script type='application/javascript' src='sidepanelScripts/sidePanelUtilities.js'></script>
 </body>
 </html>
