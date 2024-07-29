@@ -6,7 +6,7 @@
   const partNumID = 'ctl00_ctl00_cphSite_cphReturn_lblPart';
   const CMMInputID = 'txtDrawing';
 
-  let cmmInVar = document.getElementById(CMMInputID)
+  let cmmInVar = document.getElementById(CMMInputID);
   if(cmmInVar) {
     let partNumVar = window.parent.document.getElementById(partNumID);
     if(partNumVar) {
