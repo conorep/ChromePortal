@@ -8,6 +8,7 @@ const verbPath = 'injections/fillVerbiage.js';
 const cmmPath = 'injections/findAndFillCMMs.js';
 const betterEnterPath = 'injections/fixSearchEnter.js';
 const op10InsertPath = 'injections/fillEmptyOp10ParetoCodes.js';
+const infoTabFixPath = 'injections/fixInfoElements.js';
 let navJustTriggered = false;
 
 function lastErrs() {
@@ -63,7 +64,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         (async() => {
             const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
 
-            if(request.message === "tryLogin") {
+            if(request.message === 'tryLogin') {
                 let storeStuff = chrome.storage.local.get();
 
                 storeStuff.then(res => {
@@ -138,7 +139,7 @@ async function checkTabURL() {
 
 async function injectListeners(currTab) {
     let bigTarget = { tabId: currTab, allFrames : true };
-    let scriptsToInsert = [betterEnterPath, op10InsertPath];
+    let scriptsToInsert = [betterEnterPath, op10InsertPath, infoTabFixPath];
     chrome.storage.local.get().then((res) => {
         if(res?.cmmState) {
             scriptsToInsert.push(cmmPath);
@@ -186,5 +187,3 @@ async function createOffscreen() {
 chrome.runtime.onStartup.addListener(createOffscreen);
 self.onmessage = e => {};
 createOffscreen().then(r => null);
-
-
