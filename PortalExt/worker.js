@@ -9,6 +9,7 @@ const cmmPath = 'injections/findAndFillCMMs.js';
 const betterEnterPath = 'injections/fixSearchEnter.js';
 const op10InsertPath = 'injections/fillEmptyOp10ParetoCodes.js';
 const infoTabFixPath = 'injections/fixInfoElements.js';
+const multFileUp = 'injections/multFileUpload.js';
 let navJustTriggered = false;
 
 function lastErrs() {
@@ -139,7 +140,7 @@ async function checkTabURL() {
 
 async function injectListeners(currTab) {
     let bigTarget = { tabId: currTab, allFrames : true };
-    let scriptsToInsert = [betterEnterPath, op10InsertPath, infoTabFixPath];
+    let scriptsToInsert = [betterEnterPath, op10InsertPath, infoTabFixPath, multFileUp];
     chrome.storage.local.get().then((res) => {
         if(res?.cmmState) {
             scriptsToInsert.push(cmmPath);
