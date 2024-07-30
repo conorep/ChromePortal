@@ -1,6 +1,9 @@
 /**
  * This content script alters the file upload input element to a 'multiple' variant and overrides the single-upload
  * 'uploadFile' function found in Portal's 'FileUpload.aspx' file.
+ *
+ * TODO: look at this for possibly using a hidden iframe
+ * https://stackoverflow.com/questions/1833451/javascript-multiple-file-upload-sequentially-one-at-a-time
  */
 (() => {
   const iFrame = document.getElementById('dlgFrame');
