@@ -4,7 +4,7 @@
  * @param btnName string button ID
  */
 function fillVerbiage(btnName) {
-  let iFrame = document.getElementById('dlgFrame');
+  const iFrame = document.getElementById('dlgFrame');
   if(iFrame != null) {
     if(btnName === 'singlePassed' || btnName === 'multiPassed')
       addPassed(btnName);
