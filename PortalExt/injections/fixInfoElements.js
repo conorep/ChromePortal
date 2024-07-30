@@ -8,15 +8,21 @@
     removedStyles.forEach((aStyle) => {
       child.style.removeProperty(aStyle);
     })
+    if(child.nodeName === 'FIELDSET') {
+      child.style.setProperty('margin-top', '10px');
+    }
   }
 
-  let infoVar = document.getElementById(infoTab);
+  const infoVar = document.getElementById(infoTab);
   if(infoVar && window === window.top) {
-    const infoChildren = [...infoVar.children];
-    infoChildren.forEach((childDiv, i) => {
+    [...infoVar.children].forEach((childDiv, i) => {
       if(i < 4) {
         removeStyleProp(childDiv);
       }
+    })
+    const bottomBar = document.getElementsByClassName('bottomBar')[1];
+    [...bottomBar.children].forEach((childAnchor) => {
+      childAnchor.style.setProperty('width', 'auto');
     })
   }
 })();
