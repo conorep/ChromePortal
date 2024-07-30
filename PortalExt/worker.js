@@ -140,7 +140,7 @@ async function checkTabURL() {
 
 async function injectListeners(currTab) {
     let bigTarget = { tabId: currTab, allFrames : true };
-    let scriptsToInsert = [betterEnterPath, op10InsertPath, infoTabFixPath, multFileUp];
+    let scriptsToInsert = [betterEnterPath, op10InsertPath, infoTabFixPath];
     chrome.storage.local.get().then((res) => {
         if(res?.cmmState) {
             scriptsToInsert.push(cmmPath);
