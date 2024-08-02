@@ -21,8 +21,10 @@
       }
     })
     const bottomBar = document.getElementsByClassName('bottomBar')[1];
-    [...bottomBar.children].forEach((childAnchor) => {
-      childAnchor.style.setProperty('width', 'auto');
-    })
+    if(bottomBar) {
+      [...bottomBar.children].forEach((childAnchor) => {
+        childAnchor.style.setProperty('width', 'auto');
+      })
+    }
   }
 })();
