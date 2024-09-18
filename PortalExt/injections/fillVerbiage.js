@@ -21,7 +21,7 @@ function fillVerbiage(btnName) {
   }
 
   function batteryWork(plurality) {
-    let howMany = plurality === 'singleBatt' ? ['each unit\'s depleted batteries', 's'] :
+    let howMany = plurality === 'multiBatt' ? ['each unit\'s depleted batteries', 's'] :
       ['the unit\'s depleted battery', ''];
     howMany = 'I replaced '+howMany[0]+'. After reassembly, the unit'+ howMany[1] +
       ' passed full functional testing.'
