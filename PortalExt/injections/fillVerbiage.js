@@ -5,6 +5,19 @@
  */
 function fillVerbiage(btnName) {
   const iFrame = document.getElementById('dlgFrame');
+
+  const insertAtCursor = (noteElement, textContent) => {
+    let cursorPos = noteElement.selectionStart;
+    let v = noteElement.value;
+    let textBefore = v.substring(0,  cursorPos);
+    let textAfter  = v.substring(cursorPos, v.length);
+    noteElement.value = textBefore + textContent + textAfter;
+
+    cursorPos += noteElement.value.length;
+    noteElement.focus();
+    noteElement.setSelectionRange(cursorPos, cursorPos);
+  }
+
   if(iFrame != null) {
     if(btnName === 'singlePassed' || btnName === 'multiPassed')
       addPassed(btnName);
@@ -17,7 +30,7 @@ function fillVerbiage(btnName) {
   function addPassed(plurality) {
     let howMany = plurality === 'singlePassed' ? '' : 's';
     howMany = ' After reassembly, the unit' + howMany + ' passed full functional testing.'
-    dataInsert(iFrame, howMany)
+    dataInsert(howMany)
   }
 
   function batteryWork(plurality) {
@@ -25,18 +38,18 @@ function fillVerbiage(btnName) {
       ['the unit\'s depleted battery', ''];
     howMany = 'I replaced '+howMany[0]+'. After reassembly, the unit'+ howMany[1] +
       ' passed full functional testing.'
-    dataInsert(iFrame, howMany);
+    dataInsert(howMany);
   }
 
   function modded() {
     const modLang = '\n\nNOTE: This minor modification does not change fit, form, or function of the unit(s).'
-    dataInsert(iFrame, modLang);
+    dataInsert(modLang);
   }
 
-  function dataInsert(iFrame, textToInsert) {
+  function dataInsert(textToInsert) {
     let txtNotes = iFrame.contentWindow.document.getElementById('txtNotes1');
     if(txtNotes) {
-      txtNotes.value += textToInsert;
+      insertAtCursor(txtNotes, textToInsert);
     }
   }
 }
