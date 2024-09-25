@@ -34,28 +34,29 @@ document.addEventListener('click', (e) => {
 
   if(currBtn === cmmStateID) {
     chrome.storage.local.set({ cmmState: e.target.checked });
-    chrome.runtime.sendMessage({ cmmState: e.target.checked }, (response) => {
-      const inMsg = 'CMM text input function change successful!';
-      if(!document.getElementById(alertDivID)) {
-        insertTheAlert(inMsg)
-      }
+    chrome.runtime.sendMessage({ cmmState: e.target.checked }, () => {
+      checkAlert('CMM text input function change successful!');
     })
     return;
   }
 
+  let startWithRel = currBtn.startsWith('release');
   chrome.runtime.sendMessage({ message: 'tryInsert', btnID: currBtn }, (response) => {
     if(chrome.runtime.lastError) {
       console.log(chrome.runtime.lastError);
       return true;
     }
     if(response.insert === 'good') {
-      const inMsg = 'Text insert successful!';
-      if(!document.getElementById(alertDivID)) {
-        insertTheAlert(inMsg)
-      }
+      checkAlert(startWithRel ? 'Certs changed!' : 'Text insert successful!');
     }
   });
 })
+
+function checkAlert(msg) {
+  if(!document.getElementById(alertDivID)) {
+    insertTheAlert(msg)
+  }
+}
 
 function insertTheAlert(alertMsg) {
   let createdEle = document.createElement('div');
