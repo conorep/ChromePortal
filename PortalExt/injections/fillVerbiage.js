@@ -18,22 +18,41 @@ function fillVerbiage(btnName) {
     noteElement.setSelectionRange(cursorPos, cursorPos);
   }
 
-  if(iFrame != null) {
-    if(btnName === 'singlePassed' || btnName === 'multiPassed')
-      addPassed(btnName);
-    else if(btnName === 'singleBatt' || btnName === 'multiBatt')
-      batteryWork(btnName);
-    else if(btnName === 'moddedBig')
-      modded();
+  const dataInsert = (textToInsert) => {
+    let txtNotes = iFrame.contentWindow.document.getElementById('txtNotes1');
+    if(txtNotes) {
+      insertAtCursor(txtNotes, textToInsert);
+    }
   }
 
-  function addPassed(plurality) {
+  /**
+   * Requested Doc: None, FAA Form 8130-3, EASA Single Release 8130-3, EASA / FAA Dual Release 8130-3
+   * FAA Approval / Installation: '', FAA Approved, EASA Approved, FAA/EASA Approval, No FAA Approval
+   * RTS: '', FAA Form 8130-3, EASA Single Release 8130-3, EASA / FAA Dual Release 8130-3, Teardown Report and C of C
+   * @param certType
+   */
+  const selectCerts = (certType) => {
+    let certSelect = certType.split('-')[1];
+    const selChoice = [['NONE', '044'], ['FAA', '111'], ['DUAL', '313'], ['EASA', '222']];
+    const selectIDs = ['txtRtsDoc', 'drpApprovalStatus', 'drpRepairEligibility'];
+
+    for(let x = 0; x < selChoice.length; x++) {
+      if(selChoice[x][0] === certSelect) {
+        for(let y = 0; y < selectIDs.length; y++) {
+          document.getElementById(selectIDs[y]).selectedIndex = Number(selChoice[x][1].charAt(y));
+        }
+        break;
+      }
+    }
+  }
+
+  const addPassed = (plurality) => {
     let howMany = plurality === 'singlePassed' ? '' : 's';
     howMany = ' After reassembly, the unit' + howMany + ' passed full functional testing.'
     dataInsert(howMany)
   }
 
-  function batteryWork(plurality) {
+  const batteryWork = (plurality) => {
     let howMany = plurality === 'multiBatt' ? ['each unit\'s depleted batteries', 's'] :
       ['the unit\'s depleted battery', ''];
     howMany = 'I replaced '+howMany[0]+'. After reassembly, the unit'+ howMany[1] +
@@ -41,15 +60,19 @@ function fillVerbiage(btnName) {
     dataInsert(howMany);
   }
 
-  function modded() {
+  const modded = () => {
     const modLang = '\n\nNOTE: This minor modification does not change fit, form, or function of the unit(s).'
     dataInsert(modLang);
   }
 
-  function dataInsert(textToInsert) {
-    let txtNotes = iFrame.contentWindow.document.getElementById('txtNotes1');
-    if(txtNotes) {
-      insertAtCursor(txtNotes, textToInsert);
-    }
+  if(iFrame != null) {
+    if(btnName.startsWith('release'))
+      selectCerts(btnName);
+    else if(btnName === 'singlePassed' || btnName === 'multiPassed')
+      addPassed(btnName);
+    else if(btnName === 'singleBatt' || btnName === 'multiBatt')
+      batteryWork(btnName);
+    else if(btnName === 'moddedBig')
+      modded();
   }
 }
