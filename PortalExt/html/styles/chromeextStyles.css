@@ -46,3 +46,26 @@ div.card.bg-primary > div.card-body {
   }
 }
 
+div#certStuff {
+  height: 0;
+  border: 0;
+  overflow: hidden;
+  -moz-animation-delay: 3.5s;
+  -webkit-animation-delay: 3.5s;
+  -o-animation-delay: 3.5s;
+  animation-delay: 3.5s;
+}
+
+@keyframes onShow {
+  from {
+    height: 0;
+  }
+  to {
+    height: 113px;
+    border: 1px solid #0d6efd;
+  }
+}
+
+div#certStuff.slideIntoView {
+  animation: onShow 0.5s forwards;
+}
