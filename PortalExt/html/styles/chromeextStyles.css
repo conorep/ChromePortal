@@ -1,8 +1,5 @@
 body {
   min-height: 100VH;
-}
-
-body, div#certStuff {
   margin-bottom: 15px;
 }
 
@@ -48,6 +45,7 @@ div.card.bg-primary > div.card-body {
 
 div#certStuff {
   height: 0;
+  margin-bottom: 15px;
   border: 0;
   overflow: hidden;
   -moz-animation-delay: 3.5s;
@@ -59,10 +57,12 @@ div#certStuff {
 @keyframes onShow {
   from {
     height: 0;
+    margin-bottom: 0;
   }
   to {
     height: 113px;
     border: 1px solid #0d6efd;
+    margin-bottom: 15px;
   }
 }
 
