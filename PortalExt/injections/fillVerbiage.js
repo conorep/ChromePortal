@@ -26,10 +26,8 @@ function fillVerbiage(btnName) {
   }
 
   /**
-   * Requested Doc: None, FAA Form 8130-3, EASA Single Release 8130-3, EASA / FAA Dual Release 8130-3
-   * FAA Approval / Installation: '', FAA Approved, EASA Approved, FAA/EASA Approval, No FAA Approval
-   * RTS: '', FAA Form 8130-3, EASA Single Release 8130-3, EASA / FAA Dual Release 8130-3, Teardown Report and C of C
-   * @param certType
+   * Change documentation request select dropdown choices with one click.
+   * @param certType String certification type
    */
   const selectCerts = (certType) => {
     let certSelect = certType.split('-')[1];
@@ -39,7 +37,11 @@ function fillVerbiage(btnName) {
     for(let x = 0; x < selChoice.length; x++) {
       if(selChoice[x][0] === certSelect) {
         for(let y = 0; y < selectIDs.length; y++) {
-          document.getElementById(selectIDs[y]).selectedIndex = Number(selChoice[x][1].charAt(y));
+          let sEle = document.getElementById(selectIDs[y]);
+          if(sEle)
+            sEle.selectedIndex = Number(selChoice[x][1].charAt(y));
+          else
+            break;
         }
         break;
       }
