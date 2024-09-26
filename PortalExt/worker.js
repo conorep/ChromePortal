@@ -1,6 +1,7 @@
 "use strict";
 
 const PORTAL_ORIGIN = 'apps.custom-control.com';
+const PORTAL_EDIT = 'editReturn.aspx';
 const loginPg = 'html/portalLogSP.html';
 const utilPg = 'html/mainSP.html';
 const loginPath = 'injections/doLogin.js';
@@ -169,7 +170,7 @@ async function getCurrentTab() {
  * @returns {Promise<void>}
  */
 async function checkThePage(theURL, theTabId) {
-    let thePath = theURL.includes('/login.aspx') ? loginPg : utilPg;
+    let thePath = theURL.includes('/login.aspx') ? loginPg : utilPg + '?portalEdit='+theURL.includes(PORTAL_EDIT);
     chrome.sidePanel.setOptions({ tabId: theTabId, path: thePath, enabled: true }).then(() => {
         lastErrs();
         injectListeners(theTabId);
