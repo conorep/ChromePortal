@@ -1,16 +1,18 @@
 "use strict";
 
-const PORTAL_ORIGIN = 'apps.custom-control.com';
-const PORTAL_EDIT = 'editReturn.aspx';
-const loginPg = 'html/portalLogSP.html';
-const utilPg = 'html/mainSP.html';
-const loginPath = 'injections/doLogin.js';
-const verbPath = 'injections/fillVerbiage.js';
-const cmmPath = 'injections/findAndFillCMMs.js';
-const betterEnterPath = 'injections/fixSearchEnter.js';
-const op10InsertPath = 'injections/fillEmptyOp10ParetoCodes.js';
-const infoTabFixPath = 'injections/fixInfoElements.js';
-const multFileUp = 'injections/multFileUpload.js';
+const PORTAL_ORIGIN = 'apps.custom-control.com',
+  PORTAL_EDIT = 'editReturn.aspx',
+  LOGIN_PG = 'html/portalLogSP.html',
+  UTIL_PG = 'html/mainSP.html',
+  LOGIN_PATH = 'injections/doLogin.js',
+  VERB_PATH = 'injections/fillVerbiage.js',
+  CMM_PATH = 'injections/findAndFillCMMs.js',
+  BETTER_ENTER_PATH = 'injections/fixSearchEnter.js',
+  OP10_INSERT_PATH = 'injections/fillEmptyOp10ParetoCodes.js',
+  INFO_TAB_PATH_FIX = 'injections/fixInfoElements.js',
+  RESIZE_FRAME_PATH = 'injections/resizeFrame.js',
+  MULTI_UPLOAD = 'injections/multFileUpload.js';
+
 let navJustTriggered = false;
 
 function lastErrs() {
@@ -58,10 +60,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.hasOwnProperty('cmmState')) {
-        console.log('got cmmState', request.cmmState);
-        chrome.storage.local.get().then(res => {
-            console.log(res)
-        })
+        chrome.storage.local.get().then(res => { console.log(res) })
     } else if(request.message) {
         (async() => {
             const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
@@ -73,7 +72,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     let currTarget = { tabId: tab.id };
                     chrome.scripting.executeScript({
                         target: currTarget,
-                        files: [loginPath]
+                        files: [LOGIN_PATH]
                     }).then(() => {
                         chrome.scripting.executeScript({
                             target: currTarget,
@@ -90,7 +89,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                 chrome.scripting.executeScript({
                     target: defaultTarget,
-                    files: [verbPath]
+                    files: [VERB_PATH]
                 }).then(() => {
                     chrome.scripting.executeScript({
                         target: defaultTarget,
@@ -141,10 +140,10 @@ async function checkTabURL() {
 
 async function injectListeners(currTab) {
     let bigTarget = { tabId: currTab, allFrames : true };
-    let scriptsToInsert = [betterEnterPath, op10InsertPath, infoTabFixPath];
+    let scriptsToInsert = [BETTER_ENTER_PATH, OP10_INSERT_PATH, INFO_TAB_PATH_FIX, RESIZE_FRAME_PATH];
     chrome.storage.local.get().then((res) => {
         if(res?.cmmState) {
-            scriptsToInsert.push(cmmPath);
+            scriptsToInsert.push(CMM_PATH);
         }
         chrome.scripting.executeScript({
             target: bigTarget,
@@ -170,7 +169,7 @@ async function getCurrentTab() {
  * @returns {Promise<void>}
  */
 async function checkThePage(theURL, theTabId) {
-    let thePath = theURL.includes('/login.aspx') ? loginPg : utilPg + '?portalEdit='+theURL.includes(PORTAL_EDIT);
+    let thePath = theURL.includes('/login.aspx') ? LOGIN_PG : UTIL_PG + '?portalEdit='+theURL.includes(PORTAL_EDIT);
     chrome.sidePanel.setOptions({ tabId: theTabId, path: thePath, enabled: true }).then(() => {
         lastErrs();
         injectListeners(theTabId);
@@ -187,5 +186,5 @@ async function createOffscreen() {
     })
 }
 chrome.runtime.onStartup.addListener(createOffscreen);
-self.onmessage = e => {};
-createOffscreen().then(r => null);
+self.onmessage = () => {};
+createOffscreen().then(() => null);
