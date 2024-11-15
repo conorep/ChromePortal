@@ -1,8 +1,16 @@
 /**
  * This content script looks for the 'Search' modal in Portal and fixes the infuriating 'Enter' action.
  *  It normally closes the modal without searching - now 'Enter' triggers the search form.
+ *
+ * This script also inserts an alert/confirmation handler to make Portal a bit less annoying.
  */
 (() => {
+  let s = document.createElement('script');
+  s.id = 'handleAlerts';
+  s.src = chrome.runtime.getURL('./injections/alertHandle.js');
+  s.onload = function() { this.remove(); };
+  (document.head || document.documentElement).appendChild(s);
+
   let searchIsOpen = false;
   let searchModal = document.getElementById('divSearch');
 
