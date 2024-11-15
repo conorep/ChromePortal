@@ -4,12 +4,18 @@
  *
  * This script also inserts an alert/confirmation handler to make Portal a bit less annoying.
  */
-(() => {
+function interceptAnnoyingBlockers() {
   let s = document.createElement('script');
   s.id = 'handleAlerts';
   s.src = chrome.runtime.getURL('./injections/alertHandle.js');
   s.onload = function() { this.remove(); };
   (document.head || document.documentElement).appendChild(s);
+}
+
+(() => {
+  if(window === window.top) {
+    interceptAnnoyingBlockers();
+  }
 
   let searchIsOpen = false;
   let searchModal = document.getElementById('divSearch');
