@@ -6,7 +6,7 @@ if(window === window.top) {
   const tailTag = 'ctl00_ctl00_cphSite_cphReturn_lblACSerial';
   const gSearch = 'https://www.google.com/search?q=';
 
-  const setStyles = (btnElement) => {
+  var setStyles = (btnElement) => {
     const btnStyles = {
       width: '100%',
       border: '2px #85afbb solid',
