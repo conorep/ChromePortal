@@ -11,6 +11,7 @@ const PORTAL_ORIGIN = 'apps.custom-control.com',
   OP10_INSERT_PATH = 'injections/fillEmptyOp10ParetoCodes.js',
   INFO_TAB_PATH_FIX = 'injections/fixInfoElements.js',
   RESIZE_FRAME_PATH = 'injections/resizeFrame.js',
+  MAKE_TAIL_BTN = 'injections/tailNumberBtn.js',
   MULTI_UPLOAD = 'injections/multFileUpload.js';
 
 let navJustTriggered = false;
@@ -140,7 +141,7 @@ async function checkTabURL() {
 
 async function injectListeners(currTab) {
     let bigTarget = { tabId: currTab, allFrames : true };
-    let scriptsToInsert = [BETTER_ENTER_PATH, OP10_INSERT_PATH, INFO_TAB_PATH_FIX, RESIZE_FRAME_PATH];
+    let scriptsToInsert = [BETTER_ENTER_PATH, OP10_INSERT_PATH, INFO_TAB_PATH_FIX, RESIZE_FRAME_PATH, MAKE_TAIL_BTN];
     chrome.storage.local.get().then((res) => {
         if(res?.cmmState) {
             scriptsToInsert.push(CMM_PATH);
