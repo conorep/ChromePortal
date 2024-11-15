@@ -5,6 +5,32 @@
 if(window === window.top) {
   const tailTag = 'ctl00_ctl00_cphSite_cphReturn_lblACSerial';
   const gSearch = 'https://www.google.com/search?q=';
+
+  const setStyles = (btnElement) => {
+    const btnStyles = {
+      width: '100%',
+      border: '2px #85afbb solid',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      fontWeight: 'bold',
+      backgroundColor: 'lightblue',
+      height: '30px'
+    }
+    Object.assign(btnElement.style, btnStyles);
+
+    btnElement.onmouseover = () => {
+      const hoverStyles = {
+        backgroundColor: '#c7d6db',
+        border: '2px #398ca7 solid',
+        textDecoration: 'underline'
+      }
+      Object.assign(btnElement.style, hoverStyles);
+    }
+    btnElement.onmouseleave = function() {
+      setStyles(btnElement);
+    }
+  }
+
   let tailEle = document.getElementById(tailTag);
   if(tailEle && tailEle.innerText !== '') {
     const tailText = tailEle.innerText;
@@ -16,24 +42,5 @@ if(window === window.top) {
       window.open(gSearch+tailText, '_blank');
     }
     tailEle.replaceWith(tagBtn);
-  }
-}
-
-function setStyles(btnElement) {
-  btnElement.style.width = '100%';
-  btnElement.style.border = '2px #85afbb solid';
-  btnElement.style.borderRadius = '5px';
-  btnElement.style.cursor = 'pointer';
-  btnElement.style.fontWeight = 'bold';
-  btnElement.style.backgroundColor = 'lightblue';
-  btnElement.style.height = '30px';
-
-  btnElement.onmouseover = function() {
-    this.style.backgroundColor = '#c7d6db';
-    this.style.border = '2px #398ca7 solid';
-    this.style.textDecoration = 'underline';
-  }
-  btnElement.onmouseleave = function() {
-    setStyles(btnElement);
   }
 }
