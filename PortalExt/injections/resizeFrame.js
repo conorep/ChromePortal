@@ -9,10 +9,6 @@ if(window === window.top) {
     dlgFrame.style.height = '100%';
     dlgFrame.userSelect = 'none';
 
-    console.log(window)
-    if(window.jQuery) {
-      jQuery(dlgFrame).draggable({ iframeFix: true, cursor: 'move', opacity: 0.1, containment: 'parent' });
-    }
     let frameDoc = dlgFrame.contentWindow.document,
       frameBody = frameDoc.getElementsByTagName('BODY')?.[0],
       frameTextArea = frameDoc.getElementById('txtNotes1');
