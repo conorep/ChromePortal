@@ -43,5 +43,11 @@
         "linux": "Ctrl+Q"
       }
     }
-  }
+  },
+  "web_accessible_resources": [{
+    "resources": [
+      "injections/alertHandle.js"
+    ],
+    "matches": [ "*://*/*" ]
+  }]
 }
