@@ -13,9 +13,7 @@ function interceptAnnoyingBlockers() {
 }
 
 (() => {
-  if(window === window.top) {
-    interceptAnnoyingBlockers();
-  }
+  interceptAnnoyingBlockers();
 
   let searchIsOpen = false;
   let searchModal = document.getElementById('divSearch');
