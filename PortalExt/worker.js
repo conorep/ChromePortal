@@ -14,62 +14,38 @@ const PORTAL_ORIGIN = 'apps.custom-control.com',
   MAKE_TAIL_BTN = 'injections/tailNumberBtn.js',
   MULTI_UPLOAD = 'injections/multFileUpload.js';
 
-let navJustTriggered = false;
-
-function lastErrs() {
-    if(chrome.runtime.lastError) {
-        console.log(chrome.runtime.lastError);
-    }
-}
-
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch((error) => console.error(error));
 
-chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
-    if (!tab?.url) return;
-
-    if(!info.status || info.status !== 'complete') return;
-
-    if(!navJustTriggered) {
-        await checkHost(tab);
-    } else {
-        navJustTriggered = false;
-    }
-});
-
-chrome.tabs.onActivated.addListener(checkTabURL);
+chrome.tabs.onActivated.addListener(activatedTabURL);
 
 chrome.runtime.onConnect.addListener(checkTabURL);
 
-chrome.webNavigation.onCompleted.addListener(async (info) => {
+chrome.webNavigation.onCompleted.addListener((info) => {
     if(info?.url?.includes(PORTAL_ORIGIN)) {
-        navJustTriggered = true;
-        await checkThePage(info.url, info.tabId);
+        checkThePage(info.url, info.tabId);
     }
 })
 
 chrome.action.onClicked.addListener(async (tab) => {
-    checkHost(tab).then(() => {
-        chrome.action.isEnabled(tab.id, (res) => {
-            if(res) {
-                chrome.sidePanel.open({windowId: tab.windowId}, () => {
-                    if(chrome.runtime.lastError) { return true; }
-                });
-            }
-        })
+    chrome.action.isEnabled(tab.id, (res) => {
+        if(res) {
+            chrome.sidePanel.open({windowId: tab.windowId}, () => {
+                if(chrome.runtime.lastError) { return null; }
+            });
+        }
     })
 });
+
+chrome.commands.onCommand.addListener(openAllTabs);
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.hasOwnProperty('cmmState')) {
         chrome.storage.local.get().then(res => { console.log(res) })
     } else if(request.message) {
-        (async() => {
-            const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+        chrome.tabs.query({ active: true, lastFocusedWindow: true }, ([tab]) => {
 
             if(request.message === 'tryLogin') {
-                let storeStuff = chrome.storage.local.get();
-
-                storeStuff.then(res => {
+                chrome.storage.local.get().then(res => {
                     let currTarget = { tabId: tab.id };
                     chrome.scripting.executeScript({
                         target: currTarget,
@@ -86,7 +62,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     })
                 })
             } else if(request.message === 'tryInsert' && request.btnID !== '') {
-                let defaultTarget = { tabId: tab.id, allFrames : true };
+                let defaultTarget = { tabId: tab.id, allFrames: true };
 
                 chrome.scripting.executeScript({
                     target: defaultTarget,
@@ -105,43 +81,37 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 sendResponse({});
                 return true;
             }
-        })();
-        return true;
+            return true;
+        })
     }
     sendResponse({});
     return true;
 });
 
-chrome.commands.onCommand.addListener(async (command) => {
-    const [tab] = await chrome.tabs.query({active: true})
-    chrome.sidePanel.open({ tabId: tab.id }, () => {
-        if(chrome.runtime.lastError) {
-            console.log(chrome.runtime.lastError);
-            return true;
+function activatedTabURL(activeInfo) {
+    chrome.tabs.get(activeInfo.tabId, (res) => {
+        if(res && res.url?.includes(PORTAL_ORIGIN)) {
+            chrome.sidePanel.setOptions({ tabId: activeInfo.tabId, enabled: true });
+        } else {
+            chrome.sidePanel.setOptions({ tabId: activeInfo.tabId, enabled: false });
         }
-    });
-});
-
-async function checkHost(tab) {
-    let tabId = tab.id;
-    let checkURL = new URL(tab.url);
-    if(checkURL.host === PORTAL_ORIGIN) {
-        await checkThePage(checkURL.href, tabId);
-    } else {
-        chrome.sidePanel.setOptions({ tabId: tabId, enabled: false }).then(lastErrs);
-    }
+    })
 }
 
-async function checkTabURL() {
-    let theTab = await getCurrentTab();
-    if(theTab?.url?.includes(PORTAL_ORIGIN)) {
-        await checkThePage(theTab.url, theTab.id);
-    }
+function openAllTabs() {
+    chrome.tabs.query({}, (tabs) => {
+        tabs.forEach((tab) => {
+            chrome.sidePanel.open({ tabId: tab.id, windowId: tab.windowId }, () => {
+                if(chrome.runtime.lastError) { return null; }
+            })
+        });
+    })
 }
 
-async function injectListeners(currTab) {
+function injectListeners(currTab) {
     let bigTarget = { tabId: currTab, allFrames : true };
     let scriptsToInsert = [BETTER_ENTER_PATH, OP10_INSERT_PATH, INFO_TAB_PATH_FIX, RESIZE_FRAME_PATH, MAKE_TAIL_BTN];
+
     chrome.storage.local.get().then((res) => {
         if(res?.cmmState) {
             scriptsToInsert.push(CMM_PATH);
@@ -149,43 +119,48 @@ async function injectListeners(currTab) {
         chrome.scripting.executeScript({
             target: bigTarget,
             files: scriptsToInsert
-        });
+        }, chrome.runtime.lastError ? console.log(chrome.runtime.lastError) : null);
     })
 }
 
-/**
- * Get the active tab.
- * @returns {Promise<chrome.tabs.Tab>}
- */
-async function getCurrentTab() {
-    let queryOptions = { active: true, lastFocusedWindow: true };
-    let [tab] = await chrome.tabs.query(queryOptions);
-    return tab;
+function checkTabURL() {
+    chrome.tabs.query({url: 'http://'+PORTAL_ORIGIN+'/*'}, (tabs) => {
+        tabs.forEach((theTab) => {
+            checkThePage(theTab.url, theTab.id);
+        })
+    });
 }
 
 /**
  * This function checks the URL of a page and sets the side panel page accordingly.
  * @param theURL URL of current page
  * @param theTabId tab ID
- * @returns {Promise<void>}
  */
-async function checkThePage(theURL, theTabId) {
-    let thePath = theURL.includes('/login.aspx') ? LOGIN_PG : UTIL_PG + '?portalEdit='+theURL.includes(PORTAL_EDIT);
-    chrome.sidePanel.setOptions({ tabId: theTabId, path: thePath, enabled: true }).then(() => {
-        lastErrs();
-        injectListeners(theTabId);
-    });
+function checkThePage(theURL, theTabId) {
+    if(!theURL || !theTabId) {
+        return;
+    }
+
+    if(theURL.includes(PORTAL_ORIGIN)) {
+        let thePath = theURL.includes('/login.aspx') ? LOGIN_PG : UTIL_PG + '?portalEdit='+theURL.includes(PORTAL_EDIT);
+
+        chrome.sidePanel.setOptions({ path: thePath, enabled: true, tabId: theTabId }, () => {
+            chrome.runtime.lastError ? console.log(chrome.runtime.lastError) : null;
+            injectListeners(theTabId);
+        });
+    } else {
+        chrome.sidePanel.setOptions({ tabId: theTabId, enabled: false });
+    }
 }
 
-async function createOffscreen() {
-    await chrome.offscreen.createDocument({
+
+function createOffscreen() {
+    chrome.offscreen.createDocument({
         url: './html/portalOffscreen.html',
         reasons: ['BLOBS'],
         justification: 'keep service worker running',
-    }).catch(() => {}).then(async () => {
-        await checkTabURL();
-    })
+    }, checkTabURL)
 }
 chrome.runtime.onStartup.addListener(createOffscreen);
 self.onmessage = () => {};
-createOffscreen().then(() => null);
+createOffscreen();
