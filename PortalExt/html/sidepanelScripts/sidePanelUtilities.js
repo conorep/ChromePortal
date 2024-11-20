@@ -38,7 +38,6 @@ const checkAlert = (msg) => {
 
 const checkPageEditing = () => {
   const queryP = window.location.search;
-  console.log(queryP);
   if(queryP?.split?.('=')?.[1] === 'true') {
     document.getElementById('certStuff').classList.toggle('slideIntoView');
   }
