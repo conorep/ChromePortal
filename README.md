@@ -1,2 +1,2 @@
 # ChromePortal
-making dev project to get used to manifest v3 for 11Trees work AND to create a productivity tool for ACCC Portal system
+This application provides updated functionality for an aging organizational data portal system.
