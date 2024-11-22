@@ -63,7 +63,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 })
             } else if(request.message === 'tryInsert' && request.btnID !== '') {
                 let defaultTarget = { tabId: tab.id, allFrames: true };
-
                 chrome.scripting.executeScript({
                     target: defaultTarget,
                     files: [VERB_PATH]
@@ -126,7 +125,9 @@ function injectListeners(currTab) {
 function checkTabURL() {
     chrome.tabs.query({url: 'http://'+PORTAL_ORIGIN+'/*'}, (tabs) => {
         tabs.forEach((theTab) => {
-            checkThePage(theTab.url, theTab.id);
+            if(theTab.url.includes(PORTAL_ORIGIN)) {
+                checkThePage(theTab.url, theTab.id);
+            }
         })
     });
 }
