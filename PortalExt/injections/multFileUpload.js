@@ -11,7 +11,6 @@
     const frmUp = 'frmUpload';
     const getFrmUp = frame.contentWindow.document.getElementById(frmUp);
     if(getFrmUp) {
-      console.log('GETFORMUP', getFrmUp);
       getFrmUp.addEventListener('submit', (e) => {
         console.log('something submitted');
         e.stopPropagation();
@@ -29,44 +28,48 @@
   if(iFrame != null && iFrame.src.includes('FileUpload.aspx')) {
     formFunc(iFrame);
 
-    const fUpLdr = 'fileUploader';
-    const getFUpLdr = iFrame.contentWindow.document.getElementById(fUpLdr);
-    const hidPathInput = 'hidPath';
-    const hidPathInputEle = iFrame.contentWindow.document.getElementById(hidPathInput);
+    const fUpLdr = 'fileUploader',
+      hidPathInput = 'hidPath',
+      fUploadBtn = 'btnUpload';
+
+    let getFUpLdr = iFrame.contentWindow.document.getElementById(fUpLdr),
+      hidPathInputEle = iFrame.contentWindow.document.getElementById(hidPathInput),
+      getFUBtn = iFrame.contentWindow.document.getElementById(fUploadBtn);
+
     inputMultiFunc(fUpLdr, getFUpLdr);
     inputMultiFunc(hidPathInput, hidPathInputEle);
 
-    const fUploadBtn = 'btnUpload';
-    const getFUBtn = iFrame.contentWindow.document.getElementById(fUploadBtn);
     if(getFUBtn) {
       console.log(getFUBtn);
       getFUBtn.removeAttribute('onclick');
+      getFUBtn.setAttribute('type', 'button');
+      console.log(getFUBtn);
       getFUBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        formFunc(iFrame);
-
-
-        if(hidPathInputEle && getFUpLdr.value !== '') {
-          console.log(hidPathInputEle, getFUpLdr.value);
-          e.preventDefault();
-          hidPathInputEle.value = getFUpLdr.value;
-          for(let y = 0; y < getFUpLdr.files.length; y++) {
-            console.log(getFUpLdr.files[y]);
-            if(y === 0) {
-              continue;
-            }
-            let nextInput = document.createElement('input');
-            nextInput.setAttribute('hidden', 'hidden');
-            nextInput.id = 'hidPath' + y;
-            nextInput.setAttribute('name', 'hidPath');
-            nextInput.setAttribute('value', "C:\\fakepath\\" + getFUpLdr.files[y].name);
-            iFrame.contentWindow.document.getElementById('frmUpload').append(nextInput);
-          }
-
-          iFrame.contentWindow.document.forms['frmUpload'].submit();
-        }
-        return false;
+        return uploadFile(getFUpLdr, hidPathInputEle, iFrame);
       })
     }
   }
 })();
+
+function uploadFile(fileUp, hiPath, theIframe) {
+  theIframe.contentWindow.document.forms['frmUpload'].onsubmit = function(e) {
+    e.preventDefault();
+    return false;
+  }
+
+  if(fileUp && fileUp.value && fileUp?.value !== '') {
+    if(fileUp.files.length > 1) {
+      console.log('HERE!', fileUp.files.length);
+      for(let x = 1; x < fileUp.files.length; x++) {
+        hiPath.value += " C:\\fakepath\\" + fileUp.files[x].name;
+      }
+    } else {
+      console.log('THERE!', fileUp.files)
+      hiPath.value = fileUp.value;
+    }
+    theIframe.contentWindow.document.forms['frmUpload'].submit();
+    return false;
+  }
+  return false;
+}
