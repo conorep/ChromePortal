@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="added redundant check for url due to some timing issues that would throw errors&#10;* race condition had extension trying to insert content scripts faster than the URL check was being triggered">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/injections/alertHandle.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/injections/alertHandle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/worker.js" afterDir="false" />
-    </list>
+    <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="simplified project workspace" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -159,39 +154,7 @@
       <workItem from="1732051501983" duration="968000" />
       <workItem from="1732054030782" duration="15513000" />
       <workItem from="1732310133547" duration="5864000" />
-      <workItem from="1737759736834" duration="2169000" />
-    </task>
-    <task id="LOCAL-00042" summary="added insertion of searchenter content script">
-      <option name="closed" value="true" />
-      <created>1721775757673</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1721775757673</updated>
-    </task>
-    <task id="LOCAL-00043" summary="added 'rev changed' verbiage to text insertion capabilities">
-      <option name="closed" value="true" />
-      <created>1721784292142</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1721784292142</updated>
-    </task>
-    <task id="LOCAL-00044" summary="removed some IDs and slightly reworked the click trigger that sends service worker messages/triggers the alert">
-      <option name="closed" value="true" />
-      <created>1721791102846</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1721791102846</updated>
-    </task>
-    <task id="LOCAL-00045" summary="restyled navbar and added logo">
-      <option name="closed" value="true" />
-      <created>1721862687550</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1721862687550</updated>
+      <workItem from="1737759736834" duration="2490000" />
     </task>
     <task id="LOCAL-00046" summary="added 'fill in empty Op10 pareto code block' functionality">
       <option name="closed" value="true" />
@@ -553,7 +516,39 @@
       <option name="project" value="LOCAL" />
       <updated>1732316033640</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="checking runtime.lastError and injecting a resize dispatcher to handle portal position changes at different points">
+      <option name="closed" value="true" />
+      <created>1737762164312</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1737762164312</updated>
+    </task>
+    <task id="LOCAL-00092" summary="removing duplicate alert overrides">
+      <option name="closed" value="true" />
+      <created>1737762201872</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1737762201872</updated>
+    </task>
+    <task id="LOCAL-00093" summary="project defaults update">
+      <option name="closed" value="true" />
+      <created>1737762216509</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1737762216509</updated>
+    </task>
+    <task id="LOCAL-00094" summary="simplified project workspace">
+      <option name="closed" value="true" />
+      <created>1737762238818</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1737762238818</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -571,10 +566,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added 'selectCerts' function and changed existing functions to arrow functions" />
-    <MESSAGE value="hiding certStuff when not on edit page, then animating the 'show' action when switching to edit page" />
-    <MESSAGE value="made the image a bit smaller" />
-    <MESSAGE value="migrated to arrow functions, moved arrow funcs to top of script, and added 'checkeditingpage'" />
     <MESSAGE value="added edit page location constant and query parameter addition in checkThePage" />
     <MESSAGE value="simplified a javaSDoc and added some error handling" />
     <MESSAGE value="fixed 'invisible element, visible margin' UI bug" />
@@ -596,7 +587,11 @@
     <MESSAGE value="added the key combo for 'open in all applicable tabs' functionality" />
     <MESSAGE value="working on this with a few different thoughts inmind&#10;* still not functioning quite right.&#10;* highly possible that this iteration would only work with a server-side update as well, so it may be best to lean on the sidepanel: cache the files and, one by one, perform the file submit by injecting fresh code into the page and automatically triggering submissions until all files are uploaded" />
     <MESSAGE value="added redundant check for url due to some timing issues that would throw errors&#10;* race condition had extension trying to insert content scripts faster than the URL check was being triggered" />
-    <option name="LAST_COMMIT_MESSAGE" value="added redundant check for url due to some timing issues that would throw errors&#10;* race condition had extension trying to insert content scripts faster than the URL check was being triggered" />
+    <MESSAGE value="checking runtime.lastError and injecting a resize dispatcher to handle portal position changes at different points" />
+    <MESSAGE value="removing duplicate alert overrides" />
+    <MESSAGE value="project defaults update" />
+    <MESSAGE value="simplified project workspace" />
+    <option name="LAST_COMMIT_MESSAGE" value="simplified project workspace" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
