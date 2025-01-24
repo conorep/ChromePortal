@@ -14,6 +14,11 @@ const PORTAL_ORIGIN = 'apps.custom-control.com',
   MAKE_TAIL_BTN = 'injections/tailNumberBtn.js',
   MULTI_UPLOAD = 'injections/multFileUpload.js';
 
+const checkErr = () => {
+    if(chrome.runtime.lastError)
+        console.log(chrome.runtime.lastError);
+}
+
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch((error) => console.error(error));
 
 chrome.tabs.onActivated.addListener(activatedTabURL);
@@ -51,11 +56,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         target: currTarget,
                         files: [LOGIN_PATH]
                     }).then(() => {
+                        checkErr();
                         chrome.scripting.executeScript({
                             target: currTarget,
                             args: [res.uName, res.uPass],
                             func: (...args) => doLogin(...args),
                         }).then(() => {
+                            checkErr();
                             sendResponse({login: 'good'});
                             return true;
                         });
@@ -67,11 +74,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     target: defaultTarget,
                     files: [VERB_PATH]
                 }).then(() => {
+                    checkErr();
                     chrome.scripting.executeScript({
                         target: defaultTarget,
                         args: [request.btnID],
                         func: (...args) => fillVerbiage(...args),
                     }).then(() => {
+                        checkErr();
                         sendResponse({ insert: 'good' });
                         return true;
                     })
@@ -89,11 +98,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 function activatedTabURL(activeInfo) {
     chrome.tabs.get(activeInfo.tabId, (res) => {
-        if(res && res.url?.includes(PORTAL_ORIGIN)) {
-            chrome.sidePanel.setOptions({ tabId: activeInfo.tabId, enabled: true });
-        } else {
-            chrome.sidePanel.setOptions({ tabId: activeInfo.tabId, enabled: false });
-        }
+        chrome.sidePanel.setOptions({ tabId: activeInfo.tabId, enabled: res && res.url?.includes(PORTAL_ORIGIN) },
+          checkErr);
     })
 }
 
@@ -101,10 +107,19 @@ function openAllTabs() {
     chrome.tabs.query({}, (tabs) => {
         tabs.forEach((tab) => {
             chrome.sidePanel.open({ tabId: tab.id, windowId: tab.windowId }, () => {
-                if(chrome.runtime.lastError) { return null; }
+                checkErr();
+                injectResizeEventDispatcher(tab.id);
             })
         });
     })
+}
+
+function injectResizeEventDispatcher(tabID) {
+    chrome.scripting.executeScript({
+        target: { tabId: tabID }, func: () => {
+            window.dispatchEvent(new Event('resize'));
+        }
+    }, checkErr)
 }
 
 function injectListeners(currTab) {
@@ -146,7 +161,7 @@ function checkThePage(theURL, theTabId) {
         let thePath = theURL.includes('/login.aspx') ? LOGIN_PG : UTIL_PG + '?portalEdit='+theURL.includes(PORTAL_EDIT);
 
         chrome.sidePanel.setOptions({ path: thePath, enabled: true, tabId: theTabId }, () => {
-            chrome.runtime.lastError ? console.log(chrome.runtime.lastError) : null;
+            checkErr();
             injectListeners(theTabId);
         });
     } else {
@@ -156,11 +171,15 @@ function checkThePage(theURL, theTabId) {
 
 
 function createOffscreen() {
-    chrome.offscreen.createDocument({
-        url: './html/portalOffscreen.html',
-        reasons: ['BLOBS'],
-        justification: 'keep service worker running',
-    }, checkTabURL)
+    chrome.runtime.getContexts({ contextTypes: ['OFFSCREEN_DOCUMENT'] }, (contexts) => {
+        if(!contexts || contexts?.length > 0) { return; }
+        chrome.offscreen.createDocument({
+            url: './html/portalOffscreen.html',
+            reasons: ['BLOBS'],
+            justification: 'keep service worker running',
+        }, checkTabURL)
+    })
+
 }
 chrome.runtime.onStartup.addListener(createOffscreen);
 self.onmessage = () => {};
