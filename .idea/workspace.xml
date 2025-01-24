@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that">
+    <list default="true" id="2cfa03d9-069c-4839-a7d3-5e465fcaae41" name="Changes" comment="added redundant check for url due to some timing issues that would throw errors&#10;* race condition had extension trying to insert content scripts faster than the URL check was being triggered">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/background.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/background.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/html/mainSP.html" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/html/mainSP.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/html/portalLogSP.html" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/html/portalLogSP.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/html/sidepanelScripts/sidePanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/html/sidepanelScripts/sidePanel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/html/sidepanelScripts/sidePanelUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/html/sidepanelScripts/sidePanelUtilities.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/insContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/portalOffscreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PortalExt/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PortalExt/injections/alertHandle.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/injections/alertHandle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PortalExt/worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/PortalExt/worker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +68,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/conor/Desktop/11Trees Work/ChromePortal&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Conor.OBrien/IdeaProjects/ChromePortal/PortalExt/codeSrc&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -88,9 +84,12 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Conor.OBrien\IdeaProjects\ChromePortal\PortalExt\codeSrc" />
+      <recent name="C:\Users\Conor.OBrien\IdeaProjects\ChromePortal\PortalExt\html\imgs" />
       <recent name="C:\Users\Conor.OBrien\IdeaProjects\ChromePortal" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Conor.OBrien\IdeaProjects\ChromePortal\PortalExt\html\imgs" />
       <recent name="C:\Users\Conor.OBrien\IdeaProjects\ChromePortal\PortalExt" />
       <recent name="C:\Users\Conor.OBrien\IdeaProjects\ChromePortal\PortalExt\html" />
       <recent name="C:\Users\Conor.OBrien\IdeaProjects\ChromePortal\PortalExt\html\styles" />
@@ -134,65 +133,427 @@
       <workItem from="1707791182611" duration="675000" />
       <workItem from="1707864627459" duration="1437000" />
       <workItem from="1720832259400" duration="5919000" />
-      <workItem from="1721169198511" duration="5172000" />
+      <workItem from="1721169198511" duration="11846000" />
+      <workItem from="1721249796332" duration="10399000" />
+      <workItem from="1721429046371" duration="8824000" />
+      <workItem from="1721440378440" duration="962000" />
+      <workItem from="1721770100824" duration="5603000" />
+      <workItem from="1721782670183" duration="1112000" />
+      <workItem from="1721790955116" duration="230000" />
+      <workItem from="1721860631251" duration="5673000" />
+      <workItem from="1722290838818" duration="1496000" />
+      <workItem from="1722292928716" duration="8698000" />
+      <workItem from="1722302194757" duration="1407000" />
+      <workItem from="1722306175303" duration="984000" />
+      <workItem from="1722562151887" duration="49000" />
+      <workItem from="1726700323134" duration="311000" />
+      <workItem from="1726700675949" duration="960000" />
+      <workItem from="1727300102183" duration="9202000" />
+      <workItem from="1727310970177" duration="109000" />
+      <workItem from="1727908657550" duration="5893000" />
+      <workItem from="1727916234461" duration="4944000" />
+      <workItem from="1731629874974" duration="5329000" />
+      <workItem from="1731637014730" duration="2069000" />
+      <workItem from="1731707255722" duration="1150000" />
+      <workItem from="1731719013502" duration="432000" />
+      <workItem from="1732051501983" duration="968000" />
+      <workItem from="1732054030782" duration="15513000" />
+      <workItem from="1732310133547" duration="5864000" />
+      <workItem from="1737759736834" duration="2169000" />
     </task>
-    <task id="LOCAL-00001" summary="start of mv3 project">
+    <task id="LOCAL-00042" summary="added insertion of searchenter content script">
       <option name="closed" value="true" />
-      <created>1705619353672</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
+      <created>1721775757673</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
       <option name="project" value="LOCAL" />
-      <updated>1705619353672</updated>
+      <updated>1721775757673</updated>
     </task>
-    <task id="LOCAL-00002" summary="pushing everything to main in Github">
+    <task id="LOCAL-00043" summary="added 'rev changed' verbiage to text insertion capabilities">
       <option name="closed" value="true" />
-      <created>1705620348401</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
+      <created>1721784292142</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
       <option name="project" value="LOCAL" />
-      <updated>1705620348402</updated>
+      <updated>1721784292142</updated>
     </task>
-    <task id="LOCAL-00003" summary="moving to sidePanel">
+    <task id="LOCAL-00044" summary="removed some IDs and slightly reworked the click trigger that sends service worker messages/triggers the alert">
       <option name="closed" value="true" />
-      <created>1705622290432</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
+      <created>1721791102846</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
       <option name="project" value="LOCAL" />
-      <updated>1705622290432</updated>
+      <updated>1721791102846</updated>
     </task>
-    <task id="LOCAL-00004" summary="AH. lots of work. finally got the basics working.&#10;- can keep persistent name/pass&#10;- can use that to log into the portal">
+    <task id="LOCAL-00045" summary="restyled navbar and added logo">
       <option name="closed" value="true" />
-      <created>1706070850929</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
+      <created>1721862687550</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
       <option name="project" value="LOCAL" />
-      <updated>1706070850929</updated>
+      <updated>1721862687550</updated>
     </task>
-    <task id="LOCAL-00005" summary="dont know what changed but pushing anyways">
+    <task id="LOCAL-00046" summary="added 'fill in empty Op10 pareto code block' functionality">
       <option name="closed" value="true" />
-      <created>1706070886556</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
+      <created>1721862719522</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
       <option name="project" value="LOCAL" />
-      <updated>1706070886556</updated>
+      <updated>1721862719522</updated>
     </task>
-    <task id="LOCAL-00006" summary="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that">
+    <task id="LOCAL-00047" summary="simplified code and removed double quotes">
       <option name="closed" value="true" />
-      <created>1720838220128</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
+      <created>1721864137420</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
       <option name="project" value="LOCAL" />
-      <updated>1720838220128</updated>
+      <updated>1721864137420</updated>
     </task>
-    <task id="LOCAL-00007" summary="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that">
+    <task id="LOCAL-00048" summary="refactoring and adding some functionality to only show one collapse text at a time">
       <option name="closed" value="true" />
-      <created>1720838235371</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
+      <created>1721866316396</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
       <option name="project" value="LOCAL" />
-      <updated>1720838235371</updated>
+      <updated>1721866316396</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00049" summary="restyling body size and colors of collapse buttons">
+      <option name="closed" value="true" />
+      <created>1721866340740</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1721866340740</updated>
+    </task>
+    <task id="LOCAL-00050" summary="code style fix (semicolon)">
+      <option name="closed" value="true" />
+      <created>1722291006542</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1722291006542</updated>
+    </task>
+    <task id="LOCAL-00051" summary="adding fixInfoElements.js to injected content script array/variable list">
+      <option name="closed" value="true" />
+      <created>1722292131481</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1722292131481</updated>
+    </task>
+    <task id="LOCAL-00052" summary="new content script that fixes the messed-up 'Info' tab layout">
+      <option name="closed" value="true" />
+      <created>1722292170752</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1722292170752</updated>
+    </task>
+    <task id="LOCAL-00053" summary="trying to create some sort of multi-submit function but it is not working so far&#10;- probably need to do one of two things: multiple submits to server OR alter server code, which I do not have access to">
+      <option name="closed" value="true" />
+      <created>1722301681643</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1722301681659</updated>
+    </task>
+    <task id="LOCAL-00054" summary="added another file function">
+      <option name="closed" value="true" />
+      <created>1722301702321</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1722301702321</updated>
+    </task>
+    <task id="LOCAL-00055" summary="let to const">
+      <option name="closed" value="true" />
+      <created>1722301717273</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1722301717273</updated>
+    </task>
+    <task id="LOCAL-00056" summary="fixing layout of document anchors at bottom of Info panel">
+      <option name="closed" value="true" />
+      <created>1722303600731</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1722303600731</updated>
+    </task>
+    <task id="LOCAL-00057" summary="added ref to hidden iframe idea and removed insertion of in-work content script">
+      <option name="closed" value="true" />
+      <created>1722307167898</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1722307167913</updated>
+    </task>
+    <task id="LOCAL-00058" summary="added ref to hidden iframe idea and removed insertion of in-work content script">
+      <option name="closed" value="true" />
+      <created>1722307174822</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1722307174822</updated>
+    </task>
+    <task id="LOCAL-00059" summary="some quick err handling">
+      <option name="closed" value="true" />
+      <created>1722562192189</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1722562192189</updated>
+    </task>
+    <task id="LOCAL-00060" summary="minor change rectifying reversed single/multi choice ni batteryWork function">
+      <option name="closed" value="true" />
+      <created>1726700441455</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1726700441455</updated>
+    </task>
+    <task id="LOCAL-00061" summary="updated to set text where cursor currently lies">
+      <option name="closed" value="true" />
+      <created>1726701629074</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1726701629074</updated>
+    </task>
+    <task id="LOCAL-00062" summary="added some bottom margin to new cert card">
+      <option name="closed" value="true" />
+      <created>1727305087547</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1727305087547</updated>
+    </task>
+    <task id="LOCAL-00063" summary="added release cert buttons and a card to hold 'em">
+      <option name="closed" value="true" />
+      <created>1727305257430</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1727305257430</updated>
+    </task>
+    <task id="LOCAL-00064" summary="cleaning up some mismatched quotes (single, not double!)">
+      <option name="closed" value="true" />
+      <created>1727305296523</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1727305296523</updated>
+    </task>
+    <task id="LOCAL-00065" summary="added button click response script and pared down repetitive code">
+      <option name="closed" value="true" />
+      <created>1727305366833</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1727305366833</updated>
+    </task>
+    <task id="LOCAL-00066" summary="added 'selectCerts' function and changed existing functions to arrow functions">
+      <option name="closed" value="true" />
+      <created>1727305574167</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1727305574167</updated>
+    </task>
+    <task id="LOCAL-00067" summary="hiding certStuff when not on edit page, then animating the 'show' action when switching to edit page">
+      <option name="closed" value="true" />
+      <created>1727309673402</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1727309673402</updated>
+    </task>
+    <task id="LOCAL-00068" summary="made the image a bit smaller">
+      <option name="closed" value="true" />
+      <created>1727309706238</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1727309706238</updated>
+    </task>
+    <task id="LOCAL-00069" summary="migrated to arrow functions, moved arrow funcs to top of script, and added 'checkeditingpage'">
+      <option name="closed" value="true" />
+      <created>1727309765541</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1727309765541</updated>
+    </task>
+    <task id="LOCAL-00070" summary="added edit page location constant and query parameter addition in checkThePage">
+      <option name="closed" value="true" />
+      <created>1727309800866</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1727309800866</updated>
+    </task>
+    <task id="LOCAL-00071" summary="simplified a javaSDoc and added some error handling">
+      <option name="closed" value="true" />
+      <created>1727309830537</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1727309830537</updated>
+    </task>
+    <task id="LOCAL-00072" summary="fixed 'invisible element, visible margin' UI bug">
+      <option name="closed" value="true" />
+      <created>1727311069040</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1727311069040</updated>
+    </task>
+    <task id="LOCAL-00073" summary="updated constants to proper case and added path for new 'resizeiframe' script">
+      <option name="closed" value="true" />
+      <created>1727914570245</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1727914570245</updated>
+    </task>
+    <task id="LOCAL-00074" summary="added a script that fixes the main UI issue with the 'Operations' modal in portal">
+      <option name="closed" value="true" />
+      <created>1727914596850</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1727914596850</updated>
+    </task>
+    <task id="LOCAL-00075" summary="fixing draggable modal actions">
+      <option name="closed" value="true" />
+      <created>1727920685565</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1727920685565</updated>
+    </task>
+    <task id="LOCAL-00076" summary="handling annoying alert and confirmation blockage">
+      <option name="closed" value="true" />
+      <created>1731635136008</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1731635136008</updated>
+    </task>
+    <task id="LOCAL-00077" summary="inserting the alert/confirmation handler code from this script">
+      <option name="closed" value="true" />
+      <created>1731635168839</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1731635168839</updated>
+    </task>
+    <task id="LOCAL-00078" summary="made inserted handler code available for page use to deal with code source permission issues w/ m3 chrome extension security">
+      <option name="closed" value="true" />
+      <created>1731635207904</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1731635207904</updated>
+    </task>
+    <task id="LOCAL-00079" summary="removed unneeded code">
+      <option name="closed" value="true" />
+      <created>1731635221774</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1731635221774</updated>
+    </task>
+    <task id="LOCAL-00080" summary="added a function that turns a span into a button which opens a google search">
+      <option name="closed" value="true" />
+      <created>1731638559971</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1731638559971</updated>
+    </task>
+    <task id="LOCAL-00081" summary="replaced repetitive style setting with object assignment">
+      <option name="closed" value="true" />
+      <created>1731639096626</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1731639096626</updated>
+    </task>
+    <task id="LOCAL-00082" summary="found situations in which the script might have already been inserted, so changing from const to let in order to kill a possible thrown error">
+      <option name="closed" value="true" />
+      <created>1731708305207</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1731708305207</updated>
+    </task>
+    <task id="LOCAL-00083" summary="making script more readable&#10;* moved 'insert this alert script' its own function that can be called&#10;* also checking for window.top to remove possible unnecessary duplicate insertions">
+      <option name="closed" value="true" />
+      <created>1731708365690</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1731708365690</updated>
+    </task>
+    <task id="LOCAL-00084" summary="added two more annoying alert text variables to check for and simplified from 'if' to an every loop">
+      <option name="closed" value="true" />
+      <created>1731708403859</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1731708403859</updated>
+    </task>
+    <task id="LOCAL-00085" summary="AH. iframes. need to insert in 'em&#10;* removed window.top check">
+      <option name="closed" value="true" />
+      <created>1731719423135</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1731719423135</updated>
+    </task>
+    <task id="LOCAL-00086" summary="got rid of a log">
+      <option name="closed" value="true" />
+      <created>1732063475434</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1732063475434</updated>
+    </task>
+    <task id="LOCAL-00087" summary="one-way &quot;open sidepanel in all tabs&quot; functionality added&#10;* opens SP in all tabs with ctrl+shift+q&#10;* no 'close all' command yet, although I did play around with getting that working&#10;* I can create a simple page to 'redirect' sidepanels to which runs window.close(), but it's not necessary for this application">
+      <option name="closed" value="true" />
+      <created>1732068724313</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1732068724313</updated>
+    </task>
+    <task id="LOCAL-00088" summary="added the key combo for 'open in all applicable tabs' functionality">
+      <option name="closed" value="true" />
+      <created>1732068832443</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1732068832443</updated>
+    </task>
+    <task id="LOCAL-00089" summary="working on this with a few different thoughts inmind&#10;* still not functioning quite right.&#10;* highly possible that this iteration would only work with a server-side update as well, so it may be best to lean on the sidepanel: cache the files and, one by one, perform the file submit by injecting fresh code into the page and automatically triggering submissions until all files are uploaded">
+      <option name="closed" value="true" />
+      <created>1732315939629</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1732315939629</updated>
+    </task>
+    <task id="LOCAL-00090" summary="added redundant check for url due to some timing issues that would throw errors&#10;* race condition had extension trying to insert content scripts faster than the URL check was being triggered">
+      <option name="closed" value="true" />
+      <created>1732316033640</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1732316033640</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,13 +571,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="start of mv3 project" />
-    <MESSAGE value="pushing everything to main in Github" />
-    <MESSAGE value="moving to sidePanel" />
-    <MESSAGE value="AH. lots of work. finally got the basics working.&#10;- can keep persistent name/pass&#10;- can use that to log into the portal" />
-    <MESSAGE value="dont know what changed but pushing anyways" />
-    <MESSAGE value="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that" />
-    <option name="LAST_COMMIT_MESSAGE" value="further&#10;- created util page&#10;- created ability to dynamically check current tab location and change the 'open tab' page based on that" />
+    <MESSAGE value="added 'selectCerts' function and changed existing functions to arrow functions" />
+    <MESSAGE value="hiding certStuff when not on edit page, then animating the 'show' action when switching to edit page" />
+    <MESSAGE value="made the image a bit smaller" />
+    <MESSAGE value="migrated to arrow functions, moved arrow funcs to top of script, and added 'checkeditingpage'" />
+    <MESSAGE value="added edit page location constant and query parameter addition in checkThePage" />
+    <MESSAGE value="simplified a javaSDoc and added some error handling" />
+    <MESSAGE value="fixed 'invisible element, visible margin' UI bug" />
+    <MESSAGE value="updated constants to proper case and added path for new 'resizeiframe' script" />
+    <MESSAGE value="added a script that fixes the main UI issue with the 'Operations' modal in portal" />
+    <MESSAGE value="fixing draggable modal actions" />
+    <MESSAGE value="handling annoying alert and confirmation blockage" />
+    <MESSAGE value="inserting the alert/confirmation handler code from this script" />
+    <MESSAGE value="made inserted handler code available for page use to deal with code source permission issues w/ m3 chrome extension security" />
+    <MESSAGE value="removed unneeded code" />
+    <MESSAGE value="added a function that turns a span into a button which opens a google search" />
+    <MESSAGE value="replaced repetitive style setting with object assignment" />
+    <MESSAGE value="found situations in which the script might have already been inserted, so changing from const to let in order to kill a possible thrown error" />
+    <MESSAGE value="making script more readable&#10;* moved 'insert this alert script' its own function that can be called&#10;* also checking for window.top to remove possible unnecessary duplicate insertions" />
+    <MESSAGE value="added two more annoying alert text variables to check for and simplified from 'if' to an every loop" />
+    <MESSAGE value="AH. iframes. need to insert in 'em&#10;* removed window.top check" />
+    <MESSAGE value="got rid of a log" />
+    <MESSAGE value="one-way &quot;open sidepanel in all tabs&quot; functionality added&#10;* opens SP in all tabs with ctrl+shift+q&#10;* no 'close all' command yet, although I did play around with getting that working&#10;* I can create a simple page to 'redirect' sidepanels to which runs window.close(), but it's not necessary for this application" />
+    <MESSAGE value="added the key combo for 'open in all applicable tabs' functionality" />
+    <MESSAGE value="working on this with a few different thoughts inmind&#10;* still not functioning quite right.&#10;* highly possible that this iteration would only work with a server-side update as well, so it may be best to lean on the sidepanel: cache the files and, one by one, perform the file submit by injecting fresh code into the page and automatically triggering submissions until all files are uploaded" />
+    <MESSAGE value="added redundant check for url due to some timing issues that would throw errors&#10;* race condition had extension trying to insert content scripts faster than the URL check was being triggered" />
+    <option name="LAST_COMMIT_MESSAGE" value="added redundant check for url due to some timing issues that would throw errors&#10;* race condition had extension trying to insert content scripts faster than the URL check was being triggered" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
