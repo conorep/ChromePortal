@@ -1,6 +1,9 @@
 window.originalAlert = window.alert;
 window.alert = function() {
-  let alertArray = ['Warning!  If you change any of the following info', 'To complete the', 'To generate the'];
+  let alertArray = [
+    'Warning!  If you change any of the following info', 'To complete the', 'To generate the',
+    'Maintenance without proper doc', 'Are you sure a CMM has been'
+  ];
 
   let foundAlert = false;
   alertArray.every((alertText) => {
@@ -11,16 +14,20 @@ window.alert = function() {
     }
     return true;
   })
-  if(!foundAlert) {
-    return window.originalAlert(arguments[0]);
-  }
+  if(!foundAlert) return window.originalAlert(arguments[0]);
 }
 window.originalConfirm = window.confirm;
 window.confirm = function() {
   console.log(arguments)
-  if(arguments[0].startsWith('Has the product modification resulted in a change')) {
-    console.log('skip this confirmation!', arguments);
-    return false;
-  }
-  return window.originalConfirm(arguments[0]);
+  let foundConf = false;
+  const confirmArr = ['There is no pre-defined', 'Has the product modification resulted'];
+  confirmArr.every((conf) => {
+    if(arguments[0].startsWith(conf)) {
+      console.log('skip this confirmation!', arguments);
+      foundConf = true;
+      return false;
+    }
+  });
+
+  if(!foundConf) return window.originalConfirm(arguments[0]);
 }
