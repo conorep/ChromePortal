@@ -7,16 +7,17 @@ const PORTAL_ORIGIN = 'apps.custom-control.com',
   LOGIN_PATH = 'injections/doLogin.js',
   VERB_PATH = 'injections/fillVerbiage.js',
   CMM_PATH = 'injections/findAndFillCMMs.js',
-  BETTER_ENTER_PATH = 'injections/fixSearchEnter.js',
+  ENTER_AND_ALERTS_PATH = 'injections/keydownAndAlertBlocker.js',
   OP10_INSERT_PATH = 'injections/fillEmptyOp10ParetoCodes.js',
   INFO_TAB_PATH_FIX = 'injections/fixInfoElements.js',
   RESIZE_FRAME_PATH = 'injections/resizeFrame.js',
+  RESIZE_PAGE_PATH = 'injections/setMinPageWidth.js',
+  SET_EDIT_CMM_PATH = 'injections/setCMM.js',
   MAKE_TAIL_BTN = 'injections/tailNumberBtn.js',
   MULTI_UPLOAD = 'injections/multFileUpload.js';
 
 const checkErr = () => {
-    if(chrome.runtime.lastError)
-        console.log(chrome.runtime.lastError);
+    chrome.runtime.lastError && console.log(chrome.runtime.lastError);
 }
 
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch((error) => console.error(error));
@@ -36,6 +37,7 @@ chrome.action.onClicked.addListener(async (tab) => {
         if(res) {
             chrome.sidePanel.open({windowId: tab.windowId}, () => {
                 if(chrome.runtime.lastError) { return null; }
+                injectResizeEventDispatcher(tab.id);
             });
         }
     })
@@ -45,41 +47,41 @@ chrome.commands.onCommand.addListener(openAllTabs);
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.hasOwnProperty('cmmState')) {
-        chrome.storage.local.get().then(res => { console.log(res) })
+        chrome.storage.local.get(null, (res => { console.log(res) }));
     } else if(request.message) {
         chrome.tabs.query({ active: true, lastFocusedWindow: true }, ([tab]) => {
 
             if(request.message === 'tryLogin') {
-                chrome.storage.local.get().then(res => {
+                chrome.storage.local.get(null, (res => {
                     let currTarget = { tabId: tab.id };
                     chrome.scripting.executeScript({
                         target: currTarget,
                         files: [LOGIN_PATH]
-                    }).then(() => {
+                    }, () => {
                         checkErr();
                         chrome.scripting.executeScript({
                             target: currTarget,
                             args: [res.uName, res.uPass],
                             func: (...args) => doLogin(...args),
-                        }).then(() => {
+                        }, () => {
                             checkErr();
                             sendResponse({login: 'good'});
                             return true;
                         });
                     })
-                })
+                }));
             } else if(request.message === 'tryInsert' && request.btnID !== '') {
                 let defaultTarget = { tabId: tab.id, allFrames: true };
                 chrome.scripting.executeScript({
                     target: defaultTarget,
                     files: [VERB_PATH]
-                }).then(() => {
+                }, () => {
                     checkErr();
                     chrome.scripting.executeScript({
                         target: defaultTarget,
                         args: [request.btnID],
                         func: (...args) => fillVerbiage(...args),
-                    }).then(() => {
+                    }, () => {
                         checkErr();
                         sendResponse({ insert: 'good' });
                         return true;
@@ -98,8 +100,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 function activatedTabURL(activeInfo) {
     chrome.tabs.get(activeInfo.tabId, (res) => {
-        chrome.sidePanel.setOptions({ tabId: activeInfo.tabId, enabled: res && res.url?.includes(PORTAL_ORIGIN) },
-          checkErr);
+        chrome.sidePanel.setOptions({
+              tabId: activeInfo.tabId,
+              enabled: res && res.url?.includes(PORTAL_ORIGIN)
+          }, checkErr);
     })
 }
 
@@ -123,17 +127,22 @@ function injectResizeEventDispatcher(tabID) {
 }
 
 function injectListeners(currTab) {
-    let bigTarget = { tabId: currTab, allFrames : true };
-    let scriptsToInsert = [BETTER_ENTER_PATH, OP10_INSERT_PATH, INFO_TAB_PATH_FIX, RESIZE_FRAME_PATH, MAKE_TAIL_BTN];
+    const bigTarget = { tabId: currTab, allFrames : true };
+    const scriptsToInsert = [
+      ENTER_AND_ALERTS_PATH, OP10_INSERT_PATH, INFO_TAB_PATH_FIX, RESIZE_FRAME_PATH,
+        MAKE_TAIL_BTN, RESIZE_PAGE_PATH, SET_EDIT_CMM_PATH
+    ];
 
-    chrome.storage.local.get().then((res) => {
-        if(res?.cmmState) {
-            scriptsToInsert.push(CMM_PATH);
-        }
+    chrome.storage.local.get(null, (res) => {
+        if(res?.cmmState) scriptsToInsert.push(CMM_PATH);
         chrome.scripting.executeScript({
             target: bigTarget,
             files: scriptsToInsert
-        }, chrome.runtime.lastError ? console.log(chrome.runtime.lastError) : null);
+        }, () => {
+            chrome.runtime.lastError ?
+              console.log(chrome.runtime.lastError)
+              : null
+        });
     })
 }
 
@@ -169,7 +178,6 @@ function checkThePage(theURL, theTabId) {
     }
 }
 
-
 function createOffscreen() {
     chrome.runtime.getContexts({ contextTypes: ['OFFSCREEN_DOCUMENT'] }, (contexts) => {
         if(!contexts || contexts?.length > 0) { return; }
@@ -181,6 +189,5 @@ function createOffscreen() {
     })
 
 }
-chrome.runtime.onStartup.addListener(createOffscreen);
 self.onmessage = () => {};
 createOffscreen();
