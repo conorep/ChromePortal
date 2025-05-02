@@ -33,19 +33,15 @@ function interceptAnnoyingBlockers() {
 
   if(searchModal) {
     let muteObserver = new MutationObserver(muteObserverCB);
-    if(window === window.top) {
+    if(window === window.top)
       muteObserver.observe(searchModal, { attributeOldValue: true, attributeFilter: ['style'] });
-    }
   }
 
   const watchForSearchEnter = (e) => {
     if(e?.key === 'Enter') {
       e.preventDefault();
-
-      let btnSearch = document.getElementById('ctl00_ctl00_cphDlgs_cphReturnDlgs_btnSearch');
-      if(btnSearch) {
-        btnSearch.click();
-      }
+      const btnSearch = document.getElementById('ctl00_ctl00_cphDlgs_cphReturnDlgs_btnSearch');
+      if(btnSearch) btnSearch.click();
     }
   }
 })();
