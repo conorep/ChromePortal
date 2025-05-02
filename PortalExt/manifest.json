@@ -9,7 +9,8 @@
   "content_scripts": [{
     "matches": ["http://apps.custom-control.com/returns/*"],
     "js": ["codeSrc/jquery-3.4.1.min.js", "codeSrc/jquery-ui.min.js"],
-    "run_at": "document_start"
+    "run_at": "document_start",
+    "match_about_blank": true
   }],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
