@@ -30,12 +30,27 @@ chrome.webNavigation.onCompleted.addListener((info) => {
     if(info?.url?.includes(PORTAL_ORIGIN)) {
         checkThePage(info.url, info.tabId);
     }
+
+    if(info?.url?.startsWith('https://www.google.com/search')) {
+        chrome.scripting.executeScript({
+            target: { tabId: info.tabId }, func: () => {
+                let allH1s = document.querySelectorAll('h1');
+                [...allH1s].every((h1Ele) => {
+                    if(h1Ele.innerHTML === 'AI Overview') {
+                        h1Ele.closest('div[data-hveid]').remove();
+                        return false;
+                    }
+                    return true;
+                })
+            }
+        }, checkErr)
+    }
 })
 
 chrome.action.onClicked.addListener(async (tab) => {
     chrome.action.isEnabled(tab.id, (res) => {
         if(res) {
-            chrome.sidePanel.open({windowId: tab.windowId}, () => {
+            chrome.sidePanel.open({ windowId: tab.windowId }, () => {
                 if(chrome.runtime.lastError) { return null; }
                 injectResizeEventDispatcher(tab.id);
             });
@@ -65,7 +80,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                             func: (...args) => doLogin(...args),
                         }, () => {
                             checkErr();
-                            sendResponse({login: 'good'});
+                            sendResponse({ login: 'good' });
                             return true;
                         });
                     })
@@ -147,7 +162,7 @@ function injectListeners(currTab) {
 }
 
 function checkTabURL() {
-    chrome.tabs.query({url: 'http://'+PORTAL_ORIGIN+'/*'}, (tabs) => {
+    chrome.tabs.query({ url: 'http://'+PORTAL_ORIGIN+'/*' }, (tabs) => {
         tabs.forEach((theTab) => {
             if(theTab.url.includes(PORTAL_ORIGIN)) {
                 checkThePage(theTab.url, theTab.id);

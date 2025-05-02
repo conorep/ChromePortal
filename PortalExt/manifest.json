@@ -7,7 +7,7 @@
     "service_worker": "worker.js"
   },
   "content_scripts": [{
-    "matches": ["http://apps.custom-control.com/returns/*"],
+    "matches": ["http://apps.custom-control.com/returns/*", "https://www.google.com/*"],
     "js": ["codeSrc/jquery-3.4.1.min.js", "codeSrc/jquery-ui.min.js"],
     "run_at": "document_start",
     "match_about_blank": true
