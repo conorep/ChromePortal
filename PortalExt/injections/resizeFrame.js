@@ -1,10 +1,10 @@
 /**
  * Make the "Operation" modal's resizing fit the changes to the textarea element in the modal.
+ * Fix a select input width.
  */
 if(window === window.top) {
   const INIT_WIDTH = 750;
-  let dlgFrame = document.getElementById('dlgFrame');
-
+  const dlgFrame = document.getElementById('dlgFrame');
   if(dlgFrame) {
     dlgFrame.style.height = '100%';
     dlgFrame.userSelect = 'none';
@@ -28,4 +28,7 @@ if(window === window.top) {
       })
     }
   }
+
+  const customerSelect = document.getElementById('ctl00_ctl00_cphDlgs_cphReturnDlgs_drpCustomer');
+  if(customerSelect) customerSelect.style.maxWidth = '100%';
 }
