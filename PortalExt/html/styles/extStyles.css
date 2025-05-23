@@ -29,6 +29,10 @@ div.card.bg-primary > div.card-body {
   color: black;
 }
 
+button#clearSesh.btn.btn-info.float-end {
+  margin: 1rem 0.25rem;
+}
+
 #op10Btn {
   background-color: #1d6be3;
   &:hover {
