@@ -2,9 +2,11 @@
  * This function finds certain page elements and injects text. Side panel buttons trigger the message that triggers
  * this function and its inner functions.
  * @param btnName string button ID
+ * @param btnTitle string button title
  */
-function fillVerbiage(btnName) {
+function fillVerbiage(btnName, btnTitle) {
   const iFrame = document.getElementById('dlgFrame');
+  btnTitle = btnTitle.replace(/[\n\r\t]/gm, '').replace(/\s+/g, ' ');
 
   const insertAtCursor = (noteElement, textContent) => {
     let cursorPos = noteElement.selectionStart;
@@ -20,9 +22,7 @@ function fillVerbiage(btnName) {
 
   const dataInsert = (textToInsert) => {
     let txtNotes = iFrame.contentWindow.document.getElementById('txtNotes1');
-    if(txtNotes) {
-      insertAtCursor(txtNotes, textToInsert);
-    }
+    txtNotes && insertAtCursor(txtNotes, textToInsert);
   }
 
   /**
@@ -62,19 +62,12 @@ function fillVerbiage(btnName) {
     dataInsert(howMany);
   }
 
-  const modded = () => {
-    const modLang = '\n\nNOTE: This minor modification does not change fit, form, or function of the unit(s).'
-    dataInsert(modLang);
-  }
-
   if(iFrame != null) {
-    if(btnName.startsWith('release'))
-      selectCerts(btnName);
-    else if(btnName === 'singlePassed' || btnName === 'multiPassed')
-      addPassed(btnName);
-    else if(btnName === 'singleBatt' || btnName === 'multiBatt')
-      batteryWork(btnName);
-    else if(btnName === 'moddedBig')
-      modded();
+    if(btnName.startsWith('release')) selectCerts(btnName);
+    else if(btnName === 'singlePassed' || btnName === 'multiPassed') addPassed(btnName);
+    else if(btnName === 'singleBatt' || btnName === 'multiBatt') batteryWork(btnName);
+    else if(btnName === 'moddedBig') dataInsert('\n\n'+btnTitle);
+    else if(btnName === 'dmgUnit') dataInsert('\n'+btnTitle);
+    else dataInsert(btnTitle);
   }
 }
