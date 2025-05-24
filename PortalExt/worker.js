@@ -65,7 +65,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                             func: (...args) => doLogin(...args),
                         }, () => {
                             checkErr();
-                            sendResponse({login: 'good'});
+                            sendResponse({ login: 'good' });
                             return true;
                         });
                     })
