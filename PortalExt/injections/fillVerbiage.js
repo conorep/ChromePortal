@@ -8,16 +8,16 @@ function fillVerbiage(btnName, btnTitle) {
   const iFrame = document.getElementById('dlgFrame');
   btnTitle = btnTitle.replace(/[\n\r\t]/gm, '').replace(/\s+/g, ' ');
 
+  //NOTE: as of 5/23/25, there's no way to transfer focus from sidePanel to window. work is currently progressing on
+  // updating the browser.tabs namespace API to rectify this.
   const insertAtCursor = (noteElement, textContent) => {
-    let cursorPos = noteElement.selectionStart;
-    let v = noteElement.value;
-    let textBefore = v.substring(0,  cursorPos);
-    let textAfter  = v.substring(cursorPos, v.length);
-    noteElement.value = textBefore + textContent + textAfter;
-
-    cursorPos += noteElement.value.length;
     noteElement.focus();
-    noteElement.setSelectionRange(cursorPos, cursorPos);
+    if(noteElement.setRangeText) {
+      noteElement.setRangeText(textContent);
+
+      //this message is unnecessary at the moment. the worker will be updated to handle it once the API s updated.
+      chrome.runtime.sendMessage({ insertWindow: 'me' }, () => chrome.runtime.lastError ? {} : '');
+    }
   }
 
   const dataInsert = (textToInsert) => {
