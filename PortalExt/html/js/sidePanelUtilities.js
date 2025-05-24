@@ -65,9 +65,7 @@ window.onload = () => {
 
 document.addEventListener('click', (e) => {
   let currBtn = e.target.id;
-  if(!currBtn || currBtn === '' || flaggedBtnIDs.includes(currBtn)) {
-    return;
-  }
+  if(!currBtn || currBtn === '' || flaggedBtnIDs.includes(currBtn)) return;
 
   if(currBtn === cmmStateID) {
     chrome.storage.local.set({ cmmState: e.target.checked });
@@ -78,7 +76,7 @@ document.addEventListener('click', (e) => {
   }
 
   let startWithRel = currBtn.startsWith('release');
-  chrome.runtime.sendMessage({ message: 'tryInsert', btnID: currBtn }, (response) => {
+  chrome.runtime.sendMessage({ message: 'tryInsert', btnID: currBtn, btnTitle: e.target.title }, (response) => {
     if(chrome.runtime.lastError) {
       console.log(chrome.runtime.lastError);
       return true;

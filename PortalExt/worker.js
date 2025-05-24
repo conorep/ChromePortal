@@ -65,7 +65,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                             func: (...args) => doLogin(...args),
                         }, () => {
                             checkErr();
-                            sendResponse({login: 'good'});
+                            sendResponse({ login: 'good' });
                             return true;
                         });
                     })
@@ -79,7 +79,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     checkErr();
                     chrome.scripting.executeScript({
                         target: defaultTarget,
-                        args: [request.btnID],
+                        args: [request.btnID, request.btnTitle],
                         func: (...args) => fillVerbiage(...args),
                     }, () => {
                         checkErr();

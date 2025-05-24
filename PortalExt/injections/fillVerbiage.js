@@ -2,27 +2,27 @@
  * This function finds certain page elements and injects text. Side panel buttons trigger the message that triggers
  * this function and its inner functions.
  * @param btnName string button ID
+ * @param btnTitle string button title
  */
-function fillVerbiage(btnName) {
+function fillVerbiage(btnName, btnTitle) {
   const iFrame = document.getElementById('dlgFrame');
+  btnTitle = btnTitle.replace(/[\n\r\t]/gm, '').replace(/\s+/g, ' ');
 
+  //NOTE: as of 5/23/25, there's no way to transfer focus from sidePanel to window. work is currently progressing on
+  // updating the browser.tabs namespace API to rectify this.
   const insertAtCursor = (noteElement, textContent) => {
-    let cursorPos = noteElement.selectionStart;
-    let v = noteElement.value;
-    let textBefore = v.substring(0,  cursorPos);
-    let textAfter  = v.substring(cursorPos, v.length);
-    noteElement.value = textBefore + textContent + textAfter;
-
-    cursorPos += noteElement.value.length;
     noteElement.focus();
-    noteElement.setSelectionRange(cursorPos, cursorPos);
+    if(noteElement.setRangeText) {
+      noteElement.setRangeText(textContent);
+
+      //this message is unnecessary at the moment. the worker will be updated to handle it once the API s updated.
+      chrome.runtime.sendMessage({ insertWindow: 'me' }, () => chrome.runtime.lastError ? {} : '');
+    }
   }
 
   const dataInsert = (textToInsert) => {
     let txtNotes = iFrame.contentWindow.document.getElementById('txtNotes1');
-    if(txtNotes) {
-      insertAtCursor(txtNotes, textToInsert);
-    }
+    txtNotes && insertAtCursor(txtNotes, textToInsert);
   }
 
   /**
@@ -62,19 +62,12 @@ function fillVerbiage(btnName) {
     dataInsert(howMany);
   }
 
-  const modded = () => {
-    const modLang = '\n\nNOTE: This minor modification does not change fit, form, or function of the unit(s).'
-    dataInsert(modLang);
-  }
-
   if(iFrame != null) {
-    if(btnName.startsWith('release'))
-      selectCerts(btnName);
-    else if(btnName === 'singlePassed' || btnName === 'multiPassed')
-      addPassed(btnName);
-    else if(btnName === 'singleBatt' || btnName === 'multiBatt')
-      batteryWork(btnName);
-    else if(btnName === 'moddedBig')
-      modded();
+    if(btnName.startsWith('release')) selectCerts(btnName);
+    else if(btnName === 'singlePassed' || btnName === 'multiPassed') addPassed(btnName);
+    else if(btnName === 'singleBatt' || btnName === 'multiBatt') batteryWork(btnName);
+    else if(btnName === 'moddedBig') dataInsert('\n\n'+btnTitle);
+    else if(btnName === 'dmgUnit') dataInsert('\n'+btnTitle);
+    else dataInsert(btnTitle);
   }
 }
