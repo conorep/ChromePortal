@@ -74,6 +74,16 @@
         </div>
 
         <div class='col-xs-12 col-sm-4 mt-4 mt-sm-0 mb-2 mb-sm-0'>
+          <h6 class='col-12 text-center'>No trouble found</h6>
+          <div class='col-12 btn-group d-flex justify-content-center' role='group'
+              aria-label='A phrase noting that the tested unit displayed no failures.'>
+            <button type='button' class='btn btn-outline-primary flex-grow-0' id='isNTF'
+                title='The unit passed full functional testing (NTF - no trouble found).'
+            >Modified</button>
+          </div>
+        </div>
+
+        <div class='col-xs-12 col-sm-4 mt-4 mt-sm-0 mb-2 mb-sm-0'>
           <h6 class='col-12 text-center'>Revision changed</h6>
           <div class='col-12 btn-group d-flex justify-content-center' role='group'
               aria-label='A phrase discussing that the minor mod does not change fit, form, function, or certs.'>
@@ -123,12 +133,12 @@
         <div class='card card-body'>
           The Portal extension checks to see if the Op10 'Test' text box has text in it.
           <br/>
-          If there is no text, the Op10 text block (failure mode, warranty state, and pareto code) is dynamically inserted.
+          If there's no text, the Op10 text block (failure mode, warranty state, and pareto code) is dynamically added.
         </div>
       </div>
       <div class='collapse' id='searchEnter'>
         <div class='card card-body'>
-          The Portal extension quietly fixes what happens when you enter something in the 'Search' modal and hit 'enter.'
+          The Portal extension quietly fixes what happens when you enter something in the 'Search' modal & hit 'enter.'
           <br/>
           Previously, hitting 'enter' on your keyboard would close the modal and reload the page without running your
           desired search query. Now, you can hit 'enter' and quickly run your search.
