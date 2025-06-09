@@ -15,8 +15,8 @@ function fillVerbiage(btnName, btnTitle) {
     if(noteElement.setRangeText) {
       noteElement.setRangeText(textContent);
 
-      //this message is unnecessary at the moment. the worker will be updated to handle it once the API s updated.
-      chrome.runtime.sendMessage({ insertWindow: 'me' }, () => chrome.runtime.lastError ? {} : '');
+      //this message is unnecessary at the moment. the worker will be updated to handle it once the API's updated.
+      //chrome.runtime.sendMessage({ insertWindow: 'me' }, () => chrome.runtime.lastError ? {} : '');
     }
   }
 
