@@ -20,7 +20,6 @@ if(window === window.top) {
       dlgClose.width = 19;
     }
 
-
     const nestedDlgFrame = frameDoc.getElementById('dlgFrame'),
       nestedDialogDiv = frameDoc.getElementById('divDialog');
     if(!nestedDlgFrame || !nestedDialogDiv) return;
