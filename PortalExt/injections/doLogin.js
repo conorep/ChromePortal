@@ -5,14 +5,21 @@
  * @param logP password
  */
 function doLogin(logN, logP) {
-  const iframe = document.getElementById("dlgFrame");
-  if(iframe != null){
-    iframe.contentWindow.document.getElementById("loginCtl_UserName").value = logN;
-    iframe.contentWindow.document.getElementById("loginCtl_Password").value = logP;
-    iframe.contentWindow.document.getElementById("loginCtl_LoginButton").click();
-  } else if(document.getElementById("loginCtl_UserName")) {
-    document.getElementById("loginCtl_UserName").value = logN;
-    document.getElementById("loginCtl_Password").value = logP;
-    document.getElementById("loginCtl_LoginButton").click();
+  let iframe = document.getElementById('dlgFrame'),
+    loginDoc = document;
+
+  function insertAndSubmitLogInfo() {
+    loginDoc.getElementById('loginCtl_UserName').value = logN;
+    loginDoc.getElementById('loginCtl_Password').value = logP;
+    loginDoc.getElementById('loginCtl_LoginButton').click();
   }
+
+  if(iframe) {
+    loginDoc = iframe.contentDocument;
+    iframe = loginDoc.getElementById('dlgFrame');
+
+    if(iframe)
+      loginDoc = iframe.contentDocument;
+  }
+  insertAndSubmitLogInfo();
 }
