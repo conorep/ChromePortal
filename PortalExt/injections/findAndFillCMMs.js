@@ -8,7 +8,7 @@
   const CMMInputID = 'txtDrawing';
 
   const cmmInVar = document.getElementById(CMMInputID);
-  if(cmmInVar && cmmInVar.value !== '') {
+  if(cmmInVar && !cmmInVar.value) {
     let partNumVar = window.parent.document.getElementById(partNumID);
     if(partNumVar) {
       let partVal = partNumVar.innerText;
