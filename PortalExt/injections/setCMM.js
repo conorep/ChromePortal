@@ -1,8 +1,8 @@
 /**
- *  This script tunes up a pre-existing automated manual name creator.
+ *  This content script tunes up a pre-existing automated manual name creator.
+ *  This works in the portal's RWO edit view and inserts the text in an input found in the 'Info' RWO tab.
  */
-
-function loseFocusHandler(e) {
+const loseFocusHandler = (e) => {
   let currTextVal = e.target.value;
   if(currTextVal.trim() !== '' && currTextVal.length > 4) {
     const mainManualInput = document.getElementById('txtCompMaintManual');
