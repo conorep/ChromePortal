@@ -20,9 +20,7 @@
   }
 
   const inputMultiFunc = (idName, inputEle) => {
-    if(inputEle) {
-      inputEle.setAttribute('multiple', '');
-    }
+    if(inputEle) inputEle.setAttribute('multiple', '');
   }
 
   if(iFrame != null && iFrame.src.includes('FileUpload.aspx')) {
