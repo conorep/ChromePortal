@@ -1,7 +1,7 @@
 /**
  * This content script finds the service quote 'Administrative Processing' time inputs and changes them to 0 hours.
  */
-const zeroAdminTime = () => {
+function zeroAdminTime() {
   const adminTimeNonWarranty = document.getElementById('txtAdminTimeNW'),
     adminTimeWarranty = document.getElementById('txtAdminTimeW');
 
