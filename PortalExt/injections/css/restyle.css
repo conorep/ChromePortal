@@ -1,0 +1,6 @@
+/* provides overriding style to dynamically maintain centered modals, ignoring the Portal-provided js styles */
+div.dlgContent {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
