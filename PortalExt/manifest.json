@@ -14,6 +14,7 @@
   }, {
     "matches": ["http://apps.custom-control.com/*"],
     "css": ["injections/css/restyle.css"],
+    "js": ["injections/auto/overrideResize.js"],
     "run_at": "document_end",
     "match_about_blank": false
   }],
