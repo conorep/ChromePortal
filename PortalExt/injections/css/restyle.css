@@ -1,6 +1,139 @@
-/* provides overriding style to dynamically maintain centered modals, ignoring the Portal-provided js styles */
+/**
+  Style updates to overhaul broken/odd Portal UI.
+ */
+
+html, body {
+  height: 100VH;
+}
+
+body, div#appHeader {
+  min-width: 950px !important;
+}
+
 div.dlgContent {
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
+}
+
+div#tabs-info.infoGrid {
+  display: grid;
+  grid-template-areas:
+    "certInfo aircraftInfo"
+    "certInfo partDetails"
+    "returnInfo returnInfo";
+}
+
+.certInfo {
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.aircraftInfo {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  > fieldset {
+    height: auto !important;
+  }
+}
+
+.partDetails {
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.returnInfo {
+  margin-top: 15px;
+  grid-row-start: 3;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+div.bottomBar, div.buttonBar {
+  width: 100% !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  margin: 0 !important;
+  margin-top: 10px !important;
+}
+
+div.pageHeader, div.pageContent {
+  width: 100%;
+  min-width: 950px !important;
+}
+
+div#partTabs {
+  border-color: white;
+  background-color: white;
+
+  div[id^="tabs-"] {
+    width: 99.5% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    overflow: auto;
+  }
+}
+
+div#tabStripApp + div {
+  overflow: clip !important;
+  width: calc(100% - 2px);
+  min-width: 945px !important;
+}
+
+div.grid {
+  overflow-y: auto !important;
+  border-color: white !important;
+
+  div.gridHeader th {
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+  }
+
+  div.gridBody {
+    overflow: auto !important;
+  }
+}
+
+div#divSizeContent {
+  overflow: visible !important;
+}
+
+div#tabs-history > div.grid {
+  height: 90% !important;
+  div.gridBody {
+    height: auto !important;
+  }
+}
+
+div#tabs-quote {
+  span#ctl00_ctl00_cphSite_cphReturn_lblPricing, table#sqTable {
+    margin-left: 15px;
+  }
+}
+
+div#partTabs div#tabs-ops {
+  overflow: visible;
+
+  & table th[align="left"], table td[align="left"] {
+    width: 670px !important;
+  }
+  &> div.grid {
+    overflow-x: auto !important;
+    &> div.gridBody {
+      height: fit-content !important;
+    }
+  }
+}
+
+table#ctl00_ctl00_cphSite_cphReturn_grdOperations_h thead tr th:last-of-type {
+  display:none;
+}
+
+table#ctl00_ctl00_cphSite_cphReturn_grdOperations tbody tr td {
+  overflow: clip;
+}
+
+div.mainSpacer {
+  min-width: 1110px;
+  height: calc(100% - 36px);
 }
