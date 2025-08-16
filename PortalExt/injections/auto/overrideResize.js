@@ -1,7 +1,48 @@
-window.onresize = (e) => {
-  if(e.isTrusted) {
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize', { bubbles: true }))
-    }, 100);
-  }
+var resTimer;
+
+function runResizer() {
+  clearTimeout(resTimer);
+  const isEditing = window.location.pathname.endsWith('editReturn.aspx');
+
+  resTimer = setTimeout(() => {
+    window.dispatchEvent(new Event('resize', { bubbles: true }));
+
+    let calcDivs = document.querySelectorAll('div[id^="tabs-"]'),
+      divSizeC = document.querySelector('#divSizeContent');
+
+    if(calcDivs) {
+      let currDivHeight;
+      if(!isEditing) {
+        currDivHeight = calcDivs[0].style.height;
+        currDivHeight = currDivHeight.split('px')[0];
+        currDivHeight = (Number(currDivHeight) - 65) + 'px';
+      } else if(divSizeC) {
+        //TODO: this is mostly functional/solid, but the code needs to be refactored
+        //  also, the 'overflow' functionality must change between editing/viewing modes.
+        //  editing mode overflow should be shifted to .pageContent element
+        let pgContent = document.querySelector('.pageContent');
+        let overallCurrDivHeight = divSizeC.style.height;
+        overallCurrDivHeight = overallCurrDivHeight.split('px')[0];
+        overallCurrDivHeight = Number(overallCurrDivHeight);
+        currDivHeight = (overallCurrDivHeight - 300) + 'px';
+        pgContent.style.height = (overallCurrDivHeight - 270) + 'px';
+      }
+
+      calcDivs.forEach((el) => el.style.height = currDivHeight);
+    }
+
+    if(divSizeC) {
+      let currWidth = divSizeC.style.width;
+      if(currWidth) {
+        currWidth = currWidth.split('px')[0];
+        currWidth = (Number(currWidth) + 25) + 'px';
+        divSizeC.style.width = currWidth;
+      }
+    }
+  }, 100);
 }
+window.onresize = (e) => {
+  if(e.isTrusted) runResizer();
+}
+
+runResizer();
