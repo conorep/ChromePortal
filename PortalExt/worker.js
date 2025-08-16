@@ -11,7 +11,6 @@ const PORTAL_ORIGIN = 'apps.custom-control.com',
   OP10_INSERT_PATH = 'injections/fillEmptyOp10ParetoCodes.js',
   INFO_TAB_PATH_FIX = 'injections/fixInfoElements.js',
   RESIZE_FRAME_PATH = 'injections/resizeFrame.js',
-  RESIZE_PAGE_PATH = 'injections/setMinPageWidth.js',
   SET_EDIT_CMM_PATH = 'injections/setCMM.js',
   MAKE_TAIL_BTN = 'injections/tailNumberBtn.js',
   ZERO_ADMIN_HOURS = 'injections/zeroQuoteAdminHours.js',
@@ -131,7 +130,7 @@ function injectListeners(currTab) {
     const bigTarget = { tabId: currTab, allFrames : true };
     const scriptsToInsert = [
       ENTER_AND_ALERTS_PATH, OP10_INSERT_PATH, INFO_TAB_PATH_FIX, RESIZE_FRAME_PATH,
-        MAKE_TAIL_BTN, RESIZE_PAGE_PATH, SET_EDIT_CMM_PATH, ZERO_ADMIN_HOURS
+      MAKE_TAIL_BTN, SET_EDIT_CMM_PATH, ZERO_ADMIN_HOURS
     ];
 
     chrome.storage.local.get(null, (res) => {
