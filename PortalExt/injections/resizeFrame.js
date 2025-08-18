@@ -46,6 +46,10 @@ if(window === window.top) {
   const elementFinder = () => {
     frameDoc = dlgFrame.contentDocument;
     frameBody = frameDoc.getElementsByTagName('BODY')?.[0];
+    let frameForm = frameDoc.getElementById('form1');
+    let isOp20 = frameForm && frameForm.action?.includes('editOp20.aspx');
+    if(!isOp20) return;
+
     frameTextArea = frameDoc.getElementById('txtNotes1');
 
     if(frameTextArea) {
