@@ -113,7 +113,9 @@ div#tabs-quote {
 
 div#partTabs div#tabs-ops {
   overflow: visible;
-
+  & table {
+    max-width: 100%;
+  }
   & table th[align="left"], table td[align="left"] {
     width: 670px !important;
   }
