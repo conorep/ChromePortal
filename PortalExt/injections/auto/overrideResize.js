@@ -10,7 +10,7 @@ function runResizer() {
     let calcDivs = document.querySelectorAll('div[id^="tabs-"]'),
       divSizeC = document.querySelector('#divSizeContent');
 
-    if(calcDivs && calcDivs.length > 0) {
+    if(calcDivs && calcDivs.length > 0 && calcDivs[0].style) {
       let currDivHeight;
       if(!isEditing) {
         currDivHeight = calcDivs[0].style.height;
