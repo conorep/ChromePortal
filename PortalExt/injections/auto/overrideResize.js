@@ -16,10 +16,8 @@ function runResizer() {
         currDivHeight = calcDivs[0].style.height;
         currDivHeight = currDivHeight.split('px')[0];
         currDivHeight = (Number(currDivHeight) - 65) + 'px';
+        calcDivs.forEach((el) => el.style.height = currDivHeight);
       } else if(divSizeC) {
-        //TODO: this is mostly functional/solid, but the code needs to be refactored
-        //  also, the 'overflow' functionality must change between editing/viewing modes.
-        //  editing mode overflow should be shifted to .pageContent element
         let pgContent = document.querySelector('.pageContent');
         let overallCurrDivHeight = divSizeC.style.height;
         overallCurrDivHeight = overallCurrDivHeight.split('px')[0];
@@ -27,8 +25,6 @@ function runResizer() {
         currDivHeight = (overallCurrDivHeight - 300) + 'px';
         pgContent.style.height = (overallCurrDivHeight - 270) + 'px';
       }
-
-      calcDivs.forEach((el) => el.style.height = currDivHeight);
     }
 
     if(divSizeC) {
