@@ -16,7 +16,6 @@ function runResizer() {
         currDivHeight = calcDivs[0].style.height;
         currDivHeight = currDivHeight.split('px')[0];
         currDivHeight = (Number(currDivHeight) - 65) + 'px';
-        calcDivs.forEach((el) => el.style.height = currDivHeight);
       } else if(divSizeC) {
         let pgContent = document.querySelector('.pageContent');
         let overallCurrDivHeight = divSizeC.style.height;
@@ -25,6 +24,7 @@ function runResizer() {
         currDivHeight = (overallCurrDivHeight - 300) + 'px';
         pgContent.style.height = (overallCurrDivHeight - 270) + 'px';
       }
+      calcDivs.forEach((el) => el.style.height = currDivHeight);
     }
 
     if(divSizeC) {
