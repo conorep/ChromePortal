@@ -71,6 +71,7 @@ div#partTabs {
     padding-left: 0 !important;
     padding-right: 0 !important;
     overflow: auto;
+    min-height: auto;
   }
 }
 
@@ -118,6 +119,7 @@ div#partTabs div#tabs-ops {
   }
   & table th[align="left"], table td[align="left"] {
     width: 670px !important;
+    white-space: pre-wrap;
   }
   &> div.grid {
     overflow-x: auto !important;

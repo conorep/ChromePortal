@@ -10,17 +10,8 @@
   const isEditing = window.location.pathname.endsWith('editReturn.aspx'),
     infoVar = document.getElementById(infoTab);
 
-  const keepInfoTabVisible = () => {
-    if(!isEditing) return;
-
-    infoVar.style.minHeight = '410px';
-    infoVar.style.overflowY = 'auto';
-  }
-
   const removeStyleProp = (child) => {
-    removedStyles.forEach((aStyle) => {
-      child.style.removeProperty(aStyle);
-    })
+    removedStyles.forEach((aStyle) => child.style.removeProperty(aStyle))
   }
 
   const addOrRemoveClass = (element, cName) => {
@@ -44,7 +35,6 @@
   }
 
   if(infoVar && window === window.top) {
-    keepInfoTabVisible();
     addOrRemoveClass(infoVar, 'infoGrid');
 
     [...infoVar.children].forEach((childDiv, i) => {
