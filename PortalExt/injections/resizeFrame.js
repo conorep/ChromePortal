@@ -31,39 +31,123 @@ if(window === window.top) {
     divGlass = frameDoc.getElementById('divGlass');
     if(!divGlass) return;
 
-    divGlass.style.top = '0';
-    divGlass.style.height = 'calc(100% - 20px)';
+    Object.assign(divGlass.style, {
+      top: '0',
+      height: 'calc(100% - 20px)'
+    })
   }
 
   const moveListener = () => {
     if(!dialogDiv) return;
 
-    dialogDiv.style.height = frameBody.scrollHeight + 40 + 'px';
     let textWidth = INIT_WIDTH > frameTextArea.offsetWidth ? INIT_WIDTH : frameTextArea.offsetWidth;
-    dialogDiv.style.width = textWidth + 20 + 'px';
+    Object.assign(dialogDiv.style, {
+      height: frameBody.scrollHeight + 40 + 'px',
+      width: textWidth + 20 + 'px'
+    })
   }
 
   const elementFinder = () => {
     frameDoc = dlgFrame.contentDocument;
+    if(!frameDoc) return;
+
     frameBody = frameDoc.getElementsByTagName('BODY')?.[0];
-    let frameForm = frameDoc.getElementById('form1');
-    let isOp20 = frameForm && frameForm.action?.includes('editOp20.aspx');
+    fixGlass();
+    fixTitle();
+    const frameForm = frameDoc.getElementById('form1');
+    const isOp20 = frameForm && frameForm.action?.includes('editOp20.aspx');
     if(!isOp20) return;
 
     frameTextArea = frameDoc.getElementById('txtNotes1');
-
     if(frameTextArea) {
-      frameTextArea.style.display = 'block';
-      frameTextArea.style.minWidth = '750px';
-      frameTextArea.style.maxHeight = '400px';
+      Object.assign(frameTextArea.style, {
+        display: 'block',
+        minWidth: '750px',
+        minHeight: '60px',
+        maxHeight: '400px',
+        maxWidth: '99%',
+        border: '2px solid grey',
+        borderRadius: '5px',
+        marginTop: '5px',
+        marginBottom: '10px'
+      })
+
+      let completeDiv = frameDoc.getElementById('complete1');
+      if(completeDiv) completeDiv.style.paddingTop = '5px';
+
+      const fieldsetParent = frameForm.querySelector('fieldset:has(.sizingContainer)');
+      if(fieldsetParent) {
+        Object.assign(fieldsetParent.style, {
+          display: 'flex',
+          flexFlow: 'column wrap',
+          justifySelf: 'stretch',
+          alignItems: 'center'
+        })
+        Object.assign(frameForm.querySelector('.sizingContainer').style, { minWidth: '100%' })
+        const partPnl = frameForm.querySelector('#pnlAddPart');
+        if(partPnl) partPnl.style.marginLeft = '0';
+      }
+
+      const frameGrid = frameForm.querySelector('div.grid');
+      if(frameGrid) Object.assign(frameGrid.style, { minWidth: '99%' })
+
+      const gridTableContainers = frameForm.querySelectorAll('table#grdParts_h, div.gridBody table');
+      if(gridTableContainers) {
+        gridTableContainers.forEach((tblC) => {
+          Object.assign(tblC.style, { minWidth: '100%' })
+        });
+
+        const gridEls = frameForm.querySelectorAll('#grdParts_h th, div.gridBody td');
+        gridEls.forEach((tCell) => {
+          if(tCell.tagName === 'TH' && (!tCell.scope || tCell.scope === ''))
+            tCell.style.display = 'none';
+          else
+            Object.assign(tCell.style, { border: 'solid 1px black' })
+        })
+      }
+
+      const gridBodyDiv = frameForm.querySelector('div.gridBody');
+      if(gridBodyDiv) {
+        Object.assign(gridBodyDiv.style, { marginTop: '-1px' })
+        const gridBodyDeleteCells = gridBodyDiv.querySelectorAll('td:has(a)');
+        gridBodyDeleteCells.forEach((dCell) => dCell.style.textAlign = 'center');
+
+        const gridHeadAndBody = frameForm.querySelectorAll('div.gridHeader, div.gridBody');
+        gridHeadAndBody.forEach((gridEl) => {
+          Object.assign(gridEl.style, {
+            overflow: 'auto',
+            scrollbarGutter: 'stable'
+          })
+        })
+      }
+
+      const allInputs = frameForm.querySelectorAll('input');
+      allInputs.forEach((input) => {
+        if(input.type === 'text') {
+          Object.assign(input.style, {
+            border: '2px solid cornflowerblue',
+            borderRadius: '5px'
+          })
+        }
+      });
+
+      const partListAnchor = frameDoc.getElementById('butPdfPartList');
+      if(partListAnchor) {
+        partListAnchor.style.marginTop = '0';
+        const pdfImg = partListAnchor.querySelector('img');
+        const printSpan = partListAnchor.querySelector('span');
+        pdfImg.style.paddingTop = '5px';
+        printSpan.style.paddingTop = '5px';
+      }
+
       dialogDiv = document.getElementById('divDialog');
       moveListener();
-      fixTitle();
-      fixGlass();
 
-      frameTextArea.addEventListener('mousedown', () => {
+      frameTextArea.addEventListener('mousedown', (e) => {
         frameDoc.addEventListener('mousemove', moveListener)
-        frameDoc.addEventListener('mouseup', moveListener)
+        frameDoc.addEventListener('mouseup', () => {
+          frameDoc.removeEventListener('mouseup', moveListener)
+        })
       })
     }
   }
