@@ -31,20 +31,23 @@ if(window === window.top) {
     divGlass = frameDoc.getElementById('divGlass');
     if(!divGlass) return;
 
-    Object.assign(divGlass.style, {
-      top: '0',
-      height: 'calc(100% - 20px)'
-    })
+    Object.assign(divGlass.style, { top: '0', height: 'calc(100% - 20px)' })
   }
 
   const moveListener = () => {
+    if(!dialogDiv)
+      dialogDiv = document.getElementById('divDialog');
+
     if(!dialogDiv) return;
 
-    let textWidth = INIT_WIDTH > frameTextArea.offsetWidth ? INIT_WIDTH : frameTextArea.offsetWidth;
-    Object.assign(dialogDiv.style, {
+    let textWidth = !frameTextArea || INIT_WIDTH > frameTextArea.offsetWidth ? INIT_WIDTH : frameTextArea.offsetWidth;
+    const styleObj = {
       height: frameBody.scrollHeight + 40 + 'px',
-      width: textWidth + 20 + 'px'
-    })
+      width: textWidth + 20 + 'px',
+      borderRadius: '5px',
+      border: 'solid #8dbcfd 3px'
+    }
+    Object.assign(dialogDiv.style, styleObj)
   }
 
   const elementFinder = () => {
@@ -54,6 +57,7 @@ if(window === window.top) {
     frameBody = frameDoc.getElementsByTagName('BODY')?.[0];
     fixGlass();
     fixTitle();
+    moveListener();
     const frameForm = frameDoc.getElementById('form1');
     const isOp20 = frameForm && frameForm.action?.includes('editOp20.aspx');
     if(!isOp20) return;
@@ -114,21 +118,14 @@ if(window === window.top) {
 
         const gridHeadAndBody = frameForm.querySelectorAll('div.gridHeader, div.gridBody');
         gridHeadAndBody.forEach((gridEl) => {
-          Object.assign(gridEl.style, {
-            overflow: 'auto',
-            scrollbarGutter: 'stable'
-          })
+          Object.assign(gridEl.style, { overflow: 'auto', scrollbarGutter: 'stable' })
         })
       }
 
       const allInputs = frameForm.querySelectorAll('input');
       allInputs.forEach((input) => {
-        if(input.type === 'text') {
-          Object.assign(input.style, {
-            border: '2px solid cornflowerblue',
-            borderRadius: '5px'
-          })
-        }
+        if(input.type === 'text')
+          Object.assign(input.style, { border: '2px solid cornflowerblue', borderRadius: '5px' })
       });
 
       const partListAnchor = frameDoc.getElementById('butPdfPartList');
@@ -140,10 +137,8 @@ if(window === window.top) {
         printSpan.style.paddingTop = '5px';
       }
 
-      dialogDiv = document.getElementById('divDialog');
       moveListener();
-
-      frameTextArea.addEventListener('mousedown', (e) => {
+      frameTextArea.addEventListener('mousedown', () => {
         frameDoc.addEventListener('mousemove', moveListener)
         frameDoc.addEventListener('mouseup', () => {
           frameDoc.removeEventListener('mouseup', moveListener)
