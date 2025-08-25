@@ -4,7 +4,7 @@
  */
 if(window === window.top) {
   const INIT_WIDTH = 750;
-  let dialogDiv, frameBody, frameTextArea, dlgFrame, frameDoc, divGlass;
+  let dialogDiv, frameBody, frameForm, frameTextArea, dlgFrame, frameDoc, divGlass;
 
   const fixTitle = () => {
     const dlgT = frameDoc.querySelector('.dlgTitle');
@@ -22,6 +22,7 @@ if(window === window.top) {
 
     const nestedDlgFrame = frameDoc.getElementById('dlgFrame'),
       nestedDialogDiv = frameDoc.getElementById('divDialog');
+
     if(!nestedDlgFrame || !nestedDialogDiv) return;
 
     nestedDlgFrame.style.width = nestedDialogDiv.style.width;
@@ -34,13 +35,14 @@ if(window === window.top) {
     Object.assign(divGlass.style, { top: '0', height: 'calc(100% - 20px)' })
   }
 
-  const moveListener = () => {
+  const moveListener = (certainTextArea) => {
     if(!dialogDiv)
       dialogDiv = document.getElementById('divDialog');
 
     if(!dialogDiv) return;
 
-    let textWidth = !frameTextArea || INIT_WIDTH > frameTextArea.offsetWidth ? INIT_WIDTH : frameTextArea.offsetWidth;
+    let textWidth = !certainTextArea || INIT_WIDTH > certainTextArea.offsetWidth ? INIT_WIDTH
+      : certainTextArea.offsetWidth;
     const styleObj = {
       height: frameBody.scrollHeight + 40 + 'px',
       width: textWidth + 20 + 'px',
@@ -50,19 +52,51 @@ if(window === window.top) {
     Object.assign(dialogDiv.style, styleObj)
   }
 
-  const elementFinder = () => {
-    frameDoc = dlgFrame.contentDocument;
-    if(!frameDoc) return;
+  const fixDialogSize = (certainTextArea) => {
+    moveListener(certainTextArea);
 
-    frameBody = frameDoc.getElementsByTagName('BODY')?.[0];
-    fixGlass();
-    fixTitle();
-    moveListener();
-    const frameForm = frameDoc.getElementById('form1');
-    const isOp20 = frameForm && frameForm.action?.includes('editOp20.aspx');
-    if(!isOp20) return;
+    if(frameTextArea) certainTextArea.addEventListener('mousedown', () => {
+      frameDoc.addEventListener('mousemove', () => moveListener(certainTextArea))
+      frameDoc.addEventListener('mouseup', () => {
+        frameDoc.removeEventListener('mouseup', moveListener)
+      })
+    })
+  }
 
-    frameTextArea = frameDoc.getElementById('txtNotes1');
+  const txtNotesFixesOp30 = () => {
+    const notes2 = frameDoc.getElementById('txtNotes2'),
+      notes3 = frameDoc.getElementById('txtNotes3');
+
+    if(notes3?.readOnly) return;
+
+    const textAreaStyle = {
+      display: 'block',
+      minWidth: '98.9%',
+      minHeight: '60px',
+      maxHeight: '400px',
+      maxWidth: '98.9%',
+      resize: 'vertical',
+      border: '2px solid grey',
+      borderRadius: '5px',
+      marginTop: '5px',
+      marginBottom: '10px'
+    };
+
+    [frameTextArea, notes2, notes3].forEach(tArea => {
+      if(tArea) {
+        Object.assign(tArea.style, textAreaStyle);
+        fixDialogSize(tArea);
+      }
+    })
+
+    const workType = frameDoc.getElementById('lstWorkType'),
+      op30Inputs = frameDoc.querySelectorAll('input[type="text"]');
+    const inputBorderStyle = { border: 'solid 1px black' };
+    if(workType) Object.assign(workType.style, inputBorderStyle);
+    [...op30Inputs].forEach(input => Object.assign(input.style, inputBorderStyle));
+  }
+
+  const styleFixesOp20 = () => {
     if(frameTextArea) {
       Object.assign(frameTextArea.style, {
         display: 'block',
@@ -70,6 +104,7 @@ if(window === window.top) {
         minHeight: '60px',
         maxHeight: '400px',
         maxWidth: '99%',
+        resize: 'vertical',
         border: '2px solid grey',
         borderRadius: '5px',
         marginTop: '5px',
@@ -137,14 +172,24 @@ if(window === window.top) {
         printSpan.style.paddingTop = '5px';
       }
 
-      moveListener();
-      frameTextArea.addEventListener('mousedown', () => {
-        frameDoc.addEventListener('mousemove', moveListener)
-        frameDoc.addEventListener('mouseup', () => {
-          frameDoc.removeEventListener('mouseup', moveListener)
-        })
-      })
+      fixDialogSize(frameTextArea);
     }
+  }
+
+  const elementFinder = () => {
+    frameDoc = dlgFrame.contentDocument;
+    if(!frameDoc) return;
+
+    frameBody = frameDoc.getElementsByTagName('BODY')?.[0];
+    fixGlass();
+    fixTitle();
+    frameForm = frameDoc.getElementById('form1');
+    const isOp20 = frameForm && frameForm.action?.includes('editOp20.aspx'),
+      isOp30 = frameForm && frameForm.action?.includes('editOp30.aspx');
+
+    frameTextArea = frameDoc.getElementById('txtNotes1');
+    if(isOp20) styleFixesOp20();
+    if(isOp30) txtNotesFixesOp30();
   }
 
   dlgFrame = document.getElementById('dlgFrame');
