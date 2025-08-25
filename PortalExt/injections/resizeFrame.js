@@ -4,6 +4,19 @@
  */
 if(window === window.top) {
   const INIT_WIDTH = 750;
+  const textAreaStyle = {
+    display: 'block',
+    minWidth: '98.9%',
+    minHeight: '60px',
+    maxHeight: '400px',
+    maxWidth: '98.9%',
+    resize: 'vertical',
+    border: '2px solid grey',
+    borderRadius: '5px',
+    marginTop: '5px',
+    marginBottom: '10px'
+  };
+
   let dialogDiv, frameBody, frameForm, frameTextArea, dlgFrame, frameDoc, divGlass;
 
   const fixTitle = () => {
@@ -63,37 +76,16 @@ if(window === window.top) {
     })
   }
 
-  const txtNotesFixesOp30 = () => {
-    const notes2 = frameDoc.getElementById('txtNotes2'),
-      notes3 = frameDoc.getElementById('txtNotes3');
+  const styleFixesOp10 = () => {
+    const notes2 = frameDoc.getElementById('txtNotes2');
+    Object.assign(textAreaStyle, { minWidth: '98%', width: '98%' });
 
-    if(notes3?.readOnly) return;
-
-    const textAreaStyle = {
-      display: 'block',
-      minWidth: '98.9%',
-      minHeight: '60px',
-      maxHeight: '400px',
-      maxWidth: '98.9%',
-      resize: 'vertical',
-      border: '2px solid grey',
-      borderRadius: '5px',
-      marginTop: '5px',
-      marginBottom: '10px'
-    };
-
-    [frameTextArea, notes2, notes3].forEach(tArea => {
+    [frameTextArea, notes2].forEach(tArea => {
       if(tArea) {
         Object.assign(tArea.style, textAreaStyle);
         fixDialogSize(tArea);
       }
     })
-
-    const workType = frameDoc.getElementById('lstWorkType'),
-      op30Inputs = frameDoc.querySelectorAll('input[type="text"]');
-    const inputBorderStyle = { border: 'solid 1px black' };
-    if(workType) Object.assign(workType.style, inputBorderStyle);
-    [...op30Inputs].forEach(input => Object.assign(input.style, inputBorderStyle));
   }
 
   const styleFixesOp20 = () => {
@@ -176,6 +168,26 @@ if(window === window.top) {
     }
   }
 
+  const txtNotesFixesOp30 = () => {
+    const notes2 = frameDoc.getElementById('txtNotes2'),
+      notes3 = frameDoc.getElementById('txtNotes3');
+
+    if(notes3?.readOnly) return;
+
+    [frameTextArea, notes2, notes3].forEach(tArea => {
+      if(tArea) {
+        Object.assign(tArea.style, textAreaStyle);
+        fixDialogSize(tArea);
+      }
+    })
+
+    const workType = frameDoc.getElementById('lstWorkType'),
+      op30Inputs = frameDoc.querySelectorAll('input[type="text"]');
+    const inputBorderStyle = { border: 'solid 1px black' };
+    if(workType) Object.assign(workType.style, inputBorderStyle);
+    [...op30Inputs].forEach(input => Object.assign(input.style, inputBorderStyle));
+  }
+
   const elementFinder = () => {
     frameDoc = dlgFrame.contentDocument;
     if(!frameDoc) return;
@@ -183,13 +195,19 @@ if(window === window.top) {
     frameBody = frameDoc.getElementsByTagName('BODY')?.[0];
     fixGlass();
     fixTitle();
-    frameForm = frameDoc.getElementById('form1');
-    const isOp20 = frameForm && frameForm.action?.includes('editOp20.aspx'),
-      isOp30 = frameForm && frameForm.action?.includes('editOp30.aspx');
 
     frameTextArea = frameDoc.getElementById('txtNotes1');
-    if(isOp20) styleFixesOp20();
-    if(isOp30) txtNotesFixesOp30();
+    frameForm = frameDoc.getElementById('form1');
+
+    if(!frameForm) return;
+
+    const isOp10 = frameForm.action?.includes('editOp10.aspx'),
+      isOp20 = frameForm.action?.includes('editOp20.aspx'),
+      isOp30 = frameForm.action?.includes('editOp30.aspx');
+
+    if(isOp10) styleFixesOp10();
+    else if(isOp20) styleFixesOp20();
+    else if(isOp30) txtNotesFixesOp30();
   }
 
   dlgFrame = document.getElementById('dlgFrame');
