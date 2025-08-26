@@ -15,7 +15,7 @@
     "matches": ["http://apps.custom-control.com/*"],
     "css": ["injections/css/restyle.css"],
     "js": ["injections/auto/overrideResize.js"],
-    "run_at": "document_end",
+    "run_at": "document_start",
     "match_about_blank": false
   }],
   "content_security_policy": {
