@@ -137,6 +137,16 @@ table#ctl00_ctl00_cphSite_cphReturn_grdOperations tbody tr td {
   overflow: clip;
 }
 
+a#ctl00_ctl00_cphSite_cphReturn_butPdfPack {
+  width: 135px;
+  margin-top: 7px
+}
+
+a#ctl00_ctl00_cphSite_cphReturn_butPdfParts {
+  width: 110px;
+  margin-top: 7px;
+}
+
 div.mainSpacer {
   min-width: 1110px;
   height: calc(100% - 36px);
