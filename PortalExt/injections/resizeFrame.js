@@ -2,6 +2,18 @@
  * Make the "Operation" modal's resizing fit the changes to the textarea element in the modal.
  * Fix a select input width.
  */
+if(!window.alreadyInjected) {
+  window.alreadyInjected = true;
+  const fixGlass = () => {
+    const divGlass = window.document.getElementById('divGlass');
+    if(!divGlass) return;
+
+    const thisHeight = window === window.top ? '100%' : 'calc(100% - 20px)';
+    Object.assign(divGlass.style, { top: '0', height: thisHeight })
+  }
+  fixGlass();
+}
+
 if(window === window.top) {
   const INIT_WIDTH = 750;
   const textAreaStyle = {
@@ -17,7 +29,7 @@ if(window === window.top) {
     marginBottom: '10px'
   };
 
-  let dialogDiv, frameBody, frameForm, frameTextArea, dlgFrame, frameDoc, divGlass;
+  let dialogDiv, frameBody, frameForm, frameTextArea, dlgFrame, frameDoc;
 
   const fixTitle = () => {
     const dlgT = frameDoc.querySelector('.dlgTitle');
@@ -41,12 +53,7 @@ if(window === window.top) {
     nestedDlgFrame.style.width = nestedDialogDiv.style.width;
   }
 
-  const fixGlass = () => {
-    divGlass = frameDoc.getElementById('divGlass');
-    if(!divGlass) return;
 
-    Object.assign(divGlass.style, { top: '0', height: 'calc(100% - 20px)' })
-  }
 
   const moveListener = (certainTextArea) => {
     if(!dialogDiv)
@@ -193,7 +200,6 @@ if(window === window.top) {
     if(!frameDoc) return;
 
     frameBody = frameDoc.getElementsByTagName('BODY')?.[0];
-    fixGlass();
     fixTitle();
 
     frameTextArea = frameDoc.getElementById('txtNotes1');
