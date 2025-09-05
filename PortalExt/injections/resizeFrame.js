@@ -83,7 +83,7 @@ if(window === window.top) {
     })
   }
 
-  const assortedFixes = () => {
+  const selectAndInputFixes = () => {
     const selectEle = frameDoc.getElementsByTagName('SELECT'),
       op30Inputs = frameDoc.querySelectorAll('input[type="text"]');
     const inputBorderStyle = { border: 'solid 1px black' };
@@ -101,7 +101,7 @@ if(window === window.top) {
       }
     })
 
-    assortedFixes();
+    selectAndInputFixes();
   }
 
   const styleFixesOp20 = () => {
@@ -197,7 +197,7 @@ if(window === window.top) {
       }
     })
 
-    assortedFixes();
+    selectAndInputFixes();
   }
 
   const elementFinder = () => {
