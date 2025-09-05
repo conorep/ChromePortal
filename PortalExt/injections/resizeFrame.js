@@ -83,6 +83,13 @@ if(window === window.top) {
     })
   }
 
+  const assortedFixes = () => {
+    const selectEle = frameDoc.getElementsByTagName('SELECT'),
+      op30Inputs = frameDoc.querySelectorAll('input[type="text"]');
+    const inputBorderStyle = { border: 'solid 1px black' };
+    [...op30Inputs, ...selectEle].forEach(input => Object.assign(input.style, inputBorderStyle));
+  }
+
   const styleFixesOp10 = () => {
     const notes2 = frameDoc.getElementById('txtNotes2');
     Object.assign(textAreaStyle, { minWidth: '98%', width: '98%' });
@@ -93,6 +100,8 @@ if(window === window.top) {
         fixDialogSize(tArea);
       }
     })
+
+    assortedFixes();
   }
 
   const styleFixesOp20 = () => {
@@ -188,11 +197,7 @@ if(window === window.top) {
       }
     })
 
-    const workType = frameDoc.getElementById('lstWorkType'),
-      op30Inputs = frameDoc.querySelectorAll('input[type="text"]');
-    const inputBorderStyle = { border: 'solid 1px black' };
-    if(workType) Object.assign(workType.style, inputBorderStyle);
-    [...op30Inputs].forEach(input => Object.assign(input.style, inputBorderStyle));
+    assortedFixes();
   }
 
   const elementFinder = () => {
