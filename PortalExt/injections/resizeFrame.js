@@ -53,8 +53,6 @@ if(window === window.top) {
     nestedDlgFrame.style.width = nestedDialogDiv.style.width;
   }
 
-
-
   const moveListener = (certainTextArea) => {
     if(!dialogDiv)
       dialogDiv = document.getElementById('divDialog');
@@ -230,4 +228,13 @@ if(window === window.top) {
 
   const customerSelect = document.getElementById('ctl00_ctl00_cphDlgs_cphReturnDlgs_drpCustomer');
   if(customerSelect) customerSelect.style.maxWidth = '100%';
+
+  if(dialogDiv) {
+    const bodyWidth = document.body.width,
+      dialogWidth = dialogDiv.width,
+      leftNum = bodyWidth - dialogWidth / 2;
+    dialogDiv.style.left = leftNum +'px';
+
+    $('.ui-draggable').draggable({ iframeFix: true, containment: "document" });
+  }
 }
