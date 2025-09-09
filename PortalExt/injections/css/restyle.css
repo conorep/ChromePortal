@@ -10,12 +10,6 @@ body, div#appHeader {
   min-width: 950px !important;
 }
 
-div.dlgContent {
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-}
-
 div#tabs-info.infoGrid {
   display: grid;
   grid-template-areas:
