@@ -8,10 +8,7 @@
   const op10TextAreaID = 'txtNotes2';
   let testOpTextarea = document.getElementById(op10TextAreaID);
 
-  if(testOpTextarea && !testOpTextarea?.readOnly) {
-    console.log(testOpTextarea?.readOnly);
-    if(testOpTextarea.innerHTML.trim() === '') {
+  if(testOpTextarea && !testOpTextarea?.readOnly)
+    if(testOpTextarea.innerHTML.trim() === '')
       testOpTextarea.value = paretoCodeBlock;
-    }
-  }
 })();

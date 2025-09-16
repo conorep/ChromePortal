@@ -24,6 +24,7 @@
   "permissions": [
     "activeTab",
     "commands",
+    "contextMenus",
     "offscreen",
     "scripting",
     "sidePanel",
@@ -35,11 +36,17 @@
   "action": {
     "default_title": "Click to open panel",
     "default_icon": {
-      "16": "images/custLogo16.png",
-      "32": "images/custLogo32.png",
-      "48": "images/custLogo48.png",
-      "128": "images/custLogo128.png"
+      "16": "images/CCCPLogo16.png",
+      "32": "images/CCCPLogo32.png",
+      "48": "images/CCCPLogo48.png",
+      "128": "images/CCCPLogo128.png"
     }
+  },
+  "icons" : {
+    "16": "images/CCCPLogo16.png",
+    "32": "images/CCCPLogo32.png",
+    "48": "images/CCCPLogo48.png",
+    "128": "images/CCCPLogo128.png"
   },
   "commands": {
     "open-sidepanel-sidepanel-all-tabs": {
