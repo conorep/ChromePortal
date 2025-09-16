@@ -17,9 +17,7 @@ const PORTAL_ORIGIN = 'apps.custom-control.com',
   PANEL_OPEN_STATE = 'injections/checkOpenState.js',
   MULTI_UPLOAD = 'injections/multFileUpload.js';
 
-const checkErr = () => {
-    chrome.runtime.lastError && console.log(chrome.runtime.lastError);
-}
+const checkErr = () => chrome.runtime.lastError && console.log(chrome.runtime.lastError);
 
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch((error) => console.error(error));
 
@@ -122,6 +120,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     title: 'Chrome Portal Extension',
     contexts: ['all'],
+    documentUrlPatterns: ['http://apps.custom-control.com/*'],
     id: 'portalSidebar'
   }, () => {
     if(chrome.runtime.lastError) console.log(chrome.runtime.lastError);
