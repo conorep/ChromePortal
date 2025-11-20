@@ -57,7 +57,7 @@ chrome.action.onClicked.addListener(async (tab) => {
   })
 });
 
-chrome.commands.onCommand.addListener(openAllTabs);
+chrome.commands.onCommand.addListener(receiveCommand);
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.hasOwnProperty('cmmState')) {
@@ -150,6 +150,11 @@ function activatedTabURL(activeInfo) {
       enabled: res && res.url?.includes(PORTAL_ORIGIN)
     }, checkErr);
   })
+}
+
+function receiveCommand(e) {
+  if(e === 'open-sidepanel-all-tabs')
+    openAllTabs();
 }
 
 function openAllTabs() {
