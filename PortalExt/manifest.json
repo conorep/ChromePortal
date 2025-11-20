@@ -49,12 +49,12 @@
     "128": "images/CCCPLogo128.png"
   },
   "commands": {
-    "open-sidepanel-sidepanel-all-tabs": {
+    "open-sidepanel-all-tabs": {
       "suggested_key": {
         "default": "Ctrl+Shift+Q",
         "mac": "Command+Shift+Q"
       },
-      "description": "Open side panel with ctrl+q!"
+      "description": "Open the side panel in all possible tabs with ctrl+shift+q."
     },
     "_execute_action": {
       "suggested_key": {
@@ -62,7 +62,8 @@
         "mac": "Command+Q",
         "chromeos": "Ctrl+Q",
         "linux": "Ctrl+Q"
-      }
+      },
+      "description": "Open the side panel in the current tab with ctrl+q."
     }
   },
   "web_accessible_resources": [{
