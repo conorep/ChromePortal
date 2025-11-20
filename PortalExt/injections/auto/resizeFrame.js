@@ -235,6 +235,10 @@ if(window === window.top) {
       leftNum = bodyWidth - dialogWidth / 2;
     dialogDiv.style.left = leftNum +'px';
 
-    $('.ui-draggable').draggable({ iframeFix: true, containment: "document" });
+    try {
+      $('.ui-draggable').draggable({ iframeFix: true, containment: "document" });
+    } catch(e) {
+      console.log('OOPS - no jquery!', e)
+    }
   }
 }
