@@ -6,14 +6,14 @@ const PORTAL_ORIGIN = 'apps.custom-control.com',
   UTIL_PG = 'html/mainSP.html',
   LOGIN_PATH = 'injections/doLogin.js',
   VERB_PATH = 'injections/fillVerbiage.js',
-  CMM_PATH = 'injections/findAndFillCMMs.js',
-  ENTER_AND_ALERTS_PATH = 'injections/keydownAndAlertBlocker.js',
-  OP10_INSERT_PATH = 'injections/fillEmptyOp10ParetoCodes.js',
-  INFO_TAB_PATH_FIX = 'injections/fixInfoElements.js',
-  RESIZE_FRAME_PATH = 'injections/resizeFrame.js',
-  SET_EDIT_CMM_PATH = 'injections/setCMM.js',
-  MAKE_TAIL_BTN = 'injections/tailNumberBtn.js',
-  ZERO_ADMIN_HOURS = 'injections/zeroQuoteAdminHours.js',
+  CMM_PATH = 'injections/auto/findAndFillCMMs.js',
+  ENTER_AND_ALERTS_PATH = 'injections/auto/keydownAndAlertBlocker.js',
+  OP10_INSERT_PATH = 'injections/auto/fillEmptyOp10ParetoCodes.js',
+  INFO_TAB_PATH_FIX = 'injections/auto/fixInfoElements.js',
+  RESIZE_FRAME_PATH = 'injections/auto/resizeFrame.js',
+  SET_EDIT_CMM_PATH = 'injections/auto/setCMM.js',
+  MAKE_TAIL_BTN = 'injections/auto/tailNumberBtn.js',
+  ZERO_ADMIN_HOURS = 'injections/auto/zeroQuoteAdminHours.js',
   PANEL_OPEN_STATE = 'injections/checkOpenState.js',
   MULTI_UPLOAD = 'injections/multFileUpload.js';
 
@@ -24,6 +24,22 @@ chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch((error
 chrome.tabs.onActivated.addListener(activatedTabURL);
 
 chrome.runtime.onConnect.addListener(checkTabURL);
+
+chrome.webNavigation.onBeforeNavigate.addListener((info) => {
+  const isOuterFrame = info.frameType === 'outermost_frame';
+  if(!isOuterFrame) return;
+
+  chrome.windows.getCurrent({ populate: true }, (windowRes) => {
+    for(const winTab of windowRes.tabs) {
+      const includesPortal = winTab.url?.includes(PORTAL_ORIGIN);
+
+      chrome.sidePanel.getOptions({ tabId: winTab.id }, (options) => {
+        if(includesPortal && options?.enabled && winTab.pendingUrl?.includes?.(PORTAL_ORIGIN) === false)
+          chrome.runtime.sendMessage({ closePortalPanel: true }, checkErr);
+      })
+    }
+  })
+})
 
 chrome.webNavigation.onCompleted.addListener((info) => {
   if(info?.url?.includes(PORTAL_ORIGIN))
@@ -52,7 +68,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(!request.panelIsOpen)
       chrome.sidePanel.open({ tabId: senderTab }, checkErr);
     else
-      chrome.runtime.sendMessage({ closePortalPanel: true }, checkErr)
+      chrome.runtime.sendMessage({ closePortalPanel: true }, checkErr);
   } else if(request.message) {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, ([tab]) => {
       if(request.message === 'tryLogin') {
