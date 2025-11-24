@@ -1,6 +1,6 @@
 "use strict";
 
-const PORTAL_ORIGIN = 'apps.custom-control.com',
+const PORTAL_ORIGIN = 'ccc-portal.atro6.astronics.com',
   PORTAL_EDIT = 'editReturn.aspx',
   LOGIN_PG = 'html/portalLogSP.html',
   UTIL_PG = 'html/mainSP.html',

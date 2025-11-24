@@ -7,12 +7,12 @@
     "service_worker": "worker.js"
   },
   "content_scripts": [{
-    "matches": ["http://apps.custom-control.com/returns/*"],
+    "matches": ["http://apps.custom-control.com/returns/*", "https://ccc-portal.atro6.astronics.com/returns/*"],
     "js": ["codeSrc/jquery-3.4.1.min.js", "codeSrc/jquery-ui.min.js"],
     "run_at": "document_start",
     "match_about_blank": true
   }, {
-    "matches": ["http://apps.custom-control.com/*"],
+    "matches": ["http://apps.custom-control.com/*", "https://ccc-portal.atro6.astronics.com/*"],
     "css": ["injections/css/restyle.css"],
     "js": ["injections/auto/overrideResize.js"],
     "run_at": "document_start",
