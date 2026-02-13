@@ -245,7 +245,7 @@ if(window === window.top) {
   const sizeContentDivChild = document.querySelector('div#divSizeContent > div');
   if(sizeContentDivChild) {
     console.log('FOUND IT', sizeContentDivChild);
-    sizeContentDivChild.style.height = '90VH';
+    sizeContentDivChild.style.height = '100%';
     sizeContentDivChild.style.overflow = 'auto';
   }
 }
