@@ -22,7 +22,7 @@ function runResizer() {
         overallCurrDivHeight = overallCurrDivHeight.split('px')[0];
         overallCurrDivHeight = Number(overallCurrDivHeight);
         currDivHeight = (overallCurrDivHeight - 300) + 'px';
-        pgContent.style.height = (overallCurrDivHeight - 270) + 'px';
+        pgContent.style.height = currDivHeight + 'px';
       }
       calcDivs.forEach((el) => el.style.height = currDivHeight);
     }
