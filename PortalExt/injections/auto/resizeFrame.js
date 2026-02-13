@@ -241,4 +241,11 @@ if(window === window.top) {
       console.log('OOPS - no jquery!', e)
     }
   }
+
+  const sizeContentDivChild = document.querySelector('div#divSizeContent > div');
+  if(sizeContentDivChild) {
+    console.log('FOUND IT', sizeContentDivChild);
+    sizeContentDivChild.style.height = '90VH';
+    sizeContentDivChild.style.overflow = 'auto';
+  }
 }
