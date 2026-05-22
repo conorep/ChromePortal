@@ -1,8 +1,9 @@
 /**
  * This content script looks for the 'Search' modal in Portal and fixes the infuriating 'Enter' action.
  *  It normally closes the modal without searching - now 'Enter' triggers the search form.
+ *  The 'Escape' key also triggers modal close.
  *
- * This script also inserts an alert/confirmation handler to make Portal a bit less annoying.
+ * In addition, this script inserts an alert/confirmation handler to make Portal a bit less annoying.
  */
 function interceptAnnoyingBlockers() {
   let s = document.createElement('script');
@@ -40,8 +41,13 @@ function interceptAnnoyingBlockers() {
   const watchForSearchEnter = (e) => {
     if(e?.key === 'Enter') {
       e.preventDefault();
-      const btnSearch = document.getElementById('ctl00_ctl00_cphDlgs_cphReturnDlgs_btnSearch');
-      if(btnSearch) btnSearch.click();
+      const btnSearch = document.querySelector('#ctl00_ctl00_cphDlgs_cphReturnDlgs_btnSearch');
+      btnSearch && btnSearch.click();
+    }
+    if(e?.key === 'Escape') {
+      e.preventDefault();
+      const btnClose = document.querySelector('#ctl00_ctl00_cphDlgs_cphReturnDlgs_btnCancel');
+      btnClose && btnClose.click();
     }
   }
 })();

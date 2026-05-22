@@ -117,6 +117,9 @@ if(window === window.top) {
         marginBottom: '10px'
       })
 
+      frameDoc.styleSheets[0].insertRule('textarea#txtNotes1::spelling-error { ' +
+        'color: red; text-decoration: wavy pink underline; }');
+
       let completeDiv = frameDoc.getElementById('complete1');
       if(completeDiv) completeDiv.style.paddingTop = '5px';
 
