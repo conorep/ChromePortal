@@ -4,6 +4,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const searchButton = document.querySelector('#menuSearch');
 	if(searchButton) {
-		searchButton.setAttribute('accesskey', 's');
+		Object.assign(searchButton, {
+			accessKey: 's',
+			title: 'In Chrome, ALT+S will click this button.'
+		})
 	}
 });
