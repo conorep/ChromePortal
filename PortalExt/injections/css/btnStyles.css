@@ -1,0 +1,21 @@
+input[type="submit"], button[type="button"] {
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+  border: 1px #252525 solid !important;
+  border-radius: 3px !important;
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  background-color: #e8e8e8;
+  color: black;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  box-shadow: 3px 2px 2px gray;
+
+  &:hover {
+    background: rgba(191, 191, 191, 0.4) !important;
+    border-color: rgba(182, 182, 182, 0.8) !important;
+    text-decoration: underline;
+  }
+}
