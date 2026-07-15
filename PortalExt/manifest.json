@@ -17,6 +17,12 @@
     "js": ["injections/auto/overrideResize.js"],
     "run_at": "document_start",
     "match_about_blank": false
+  }, {
+    "matches": ["http://apps.custom-control.com/*", "https://ccc-portal.atro6.astronics.com/*"],
+    "css": ["injections/css/btnStyles.css"],
+    "run_at": "document_start",
+    "match_about_blank": false,
+    "all_frames": true
   }],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
