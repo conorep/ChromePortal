@@ -1,7 +1,3 @@
-/**
-  Style updates to overhaul broken/odd Portal UI.
- */
-
 html, body {
   height: 100VH;
 }
@@ -26,6 +22,7 @@ div#tabs-info.infoGrid {
 .aircraftInfo {
   grid-row-start: 1;
   grid-row-end: 2;
+
   > fieldset {
     height: auto !important;
   }
@@ -108,13 +105,16 @@ div#tabs-quote {
 
 div#partTabs div#tabs-ops {
   overflow: visible;
+
   & table {
     max-width: 100%;
   }
+
   & table th[align="left"], table td[align="left"] {
     width: 670px !important;
     white-space: pre-wrap;
   }
+
   &> div.grid {
     overflow-x: auto !important;
     &> div.gridBody {
@@ -147,13 +147,62 @@ div.mainSpacer {
 }
 
 td:has(div.appTab) {
-  padding-right: 1px;
+  padding-right: 2px;
 }
 
 div.appTab {
   border-radius: 5px 5px 0 0;
+  &:hover a {
+    background-color: #674def;
+  }
+
+  &:hover a, &:active a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  &:active a {
+    background-color: #806cf7;
+  }
 }
 
 div.appTab a {
   border-radius: 4px 4px 0 0;
+}
+
+div#divMenu.menuBar > div {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-around;
+  margin-left: 10px;
+
+  a, div, select, input, span {
+    position: unset !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    align-content: space-evenly !important;
+  }
+
+  input#btnRefresh, input#btnToExcel, span#lblNumRecords {
+    margin-left: 10px !important;
+  }
+
+  div.filterWrapper {
+    display: flex;
+    flex-flow: column;
+    justify-content: end;
+  }
+
+  a > span {
+    vertical-align: bottom;
+  }
+}
+
+div:has(a.searchLink) {
+  margin-right: 10px !important;
+}
+
+div#panelDateRangeFilter {
+  padding-top: 4px;
 }
